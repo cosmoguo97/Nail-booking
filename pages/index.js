@@ -1,120 +1,158 @@
 import { useState } from "react";
 
-const services = [
-  { name: "基础设计", hours: 2 },
-  { name: "设计款", hours: 3 },
-  { name: "全手设计", hours: 4 },
-  { name: "高级定制", hours: 8 },
-];
-
-const baseSlots = [10, 12, 14, 16, 18];
-
 export default function Home() {
-  const [selectedService, setSelectedService] = useState(null);
-  const [extension, setExtension] = useState(false);
-  const [bookings, setBookings] = useState([]);
-  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [selected, setSelected] = useState(null);
+  const [extra, setExtra] = useState(false);
 
-  const [name, setName] = useState("");
-  const [contact, setContact] = useState("");
+  const menu = [
+    { name: "Basic Design", time: 2 },
+    { name: "Design Set", time: 3 },
+    { name: "Full Art", time: 4 },
+    { name: "Custom Ritual", time: 8 },
+  ];
 
-  const getTotalHours = () => {
-    if (!selectedService) return 0;
-    return selectedService.hours + (extension ? 1 : 0);
-  };
-
-  const isSlotAvailable = (startHour) => {
-    const duration = getTotalHours();
-    const endHour = startHour + duration;
-
-    for (let b of bookings) {
-      const bStart = b.start;
-      const bEnd = b.start + b.duration;
-
-      if (!(endHour <= bStart || startHour >= bEnd)) {
-        return false;
-      }
-    }
-    return true;
-  };
-
-  const handleBooking = () => {
-    const newBooking = {
-      start: selectedSlot,
-      duration: getTotalHours(),
-      name,
-      contact,
-    };
-
-    setBookings([...bookings, newBooking]);
-
-    setSelectedSlot(null);
-    setSelectedService(null);
-    setExtension(false);
-    setName("");
-    setContact("");
-  };
+  const totalTime = selected
+    ? selected.time + (extra ? 1 : 0)
+    : 0;
 
   return (
-    <div style={{ padding: 20, maxWidth: 400, margin: "auto" }}>
-      <h2>🍓 阿Sue美甲预约</h2>
+    <div style={styles.container}>
+      <h1 style={styles.title}>
+        atelier NAILBUG
+      </h1>
+      <p style={styles.subtitle}>
+        Millennium Bug Palace 予約系统
+      </p>
 
-      <h3>选择套餐</h3>
-      {services.map((s) => (
-        <button key={s.name} onClick={() => setSelectedService(s)}>
-          {s.name}（{s.hours}h）
-        </button>
-      ))}
+      {/* 套餐 */}
+      <div style={styles.section}>
+        <p style={styles.label}>Select Ritual</p>
+        <div style={styles.grid}>
+          {menu.map((item, i) => {
+            const isActive = selected?.name === item.name;
 
-      <h3>延长</h3>
-      <button onClick={() => setExtension(!extension)}>
-        延长 +1小时
+            return (
+              <button
+                key={i}
+                onClick={() => setSelected(item)}
+                style={{
+                  ...styles.card,
+                  background: isActive ? "#000" : "#fff",
+                  color: isActive ? "#fff" : "#000",
+                  opacity: isActive ? 0.6 : 1,
+                }}
+              >
+                <div>{item.name}</div>
+                <div style={{ fontSize: 12 }}>
+                  {item.time}h
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* 延长 */}
+      <div style={styles.section}>
+        <label style={styles.checkbox}>
+          <input
+            type="checkbox"
+            checked={extra}
+            onChange={() => setExtra(!extra)}
+          />
+          Extension Ritual (+1h)
+        </label>
+      </div>
+
+      {/* 时间 */}
+      <div style={styles.section}>
+        <p style={styles.label}>Total Time</p>
+        <div style={styles.time}>
+          {totalTime ? `${totalTime} hours` : "--"}
+        </div>
+      </div>
+
+      {/* 信息收集 */}
+      <div style={styles.section}>
+        <p style={styles.label}>Client Info</p>
+        <input placeholder="Name" style={styles.input} />
+        <input placeholder="Contact (WeChat / LINE)" style={styles.input} />
+        <textarea
+          placeholder="Describe your nail desire..."
+          style={styles.textarea}
+        />
+      </div>
+
+      {/* 提交 */}
+      <button style={styles.submit}>
+        Submit Ritual
       </button>
-
-      <h3>选择时间</h3>
-      {baseSlots.map((hour) => {
-        const available = isSlotAvailable(hour);
-        return (
-          <button
-            key={hour}
-            disabled={!available}
-            onClick={() => setSelectedSlot(hour)}
-          >
-            {hour}:00 {available ? "" : "（已满）"}
-          </button>
-        );
-      })}
-
-      <h3>填写信息</h3>
-      <input
-        placeholder="姓名"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <br />
-      <input
-        placeholder="联系方式"
-        value={contact}
-        onChange={(e) => setContact(e.target.value)}
-      />
-
-      <h3>确认</h3>
-      <p>总时长：{getTotalHours()}h</p>
-      <p>时间：{selectedSlot}</p>
-
-      <button
-        disabled={!selectedService || !selectedSlot || !name || !contact}
-        onClick={handleBooking}
-      >
-        确认预约
-      </button>
-
-      <h3>今日排单</h3>
-      {bookings.map((b, i) => (
-        <p key={i}>
-          {b.start}:00 - {b.start + b.duration}:00 ｜{b.name}
-        </p>
-      ))}
     </div>
   );
 }
+
+const styles = {
+  container: {
+    maxWidth: 420,
+    margin: "40px auto",
+    fontFamily: "monospace",
+    padding: 20,
+    background: "#f5f5f5",
+    border: "2px solid black",
+  },
+  title: {
+    fontSize: 24,
+    textAlign: "center",
+  },
+  subtitle: {
+    textAlign: "center",
+    fontSize: 12,
+    marginBottom: 20,
+  },
+  section: {
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 12,
+    marginBottom: 6,
+  },
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: 10,
+  },
+  card: {
+    border: "2px solid black",
+    padding: 10,
+    cursor: "pointer",
+  },
+  checkbox: {
+    fontSize: 12,
+  },
+  time: {
+    fontSize: 18,
+    border: "2px dashed black",
+    padding: 10,
+    textAlign: "center",
+  },
+  input: {
+    width: "100%",
+    marginBottom: 8,
+    padding: 6,
+    border: "1px solid black",
+  },
+  textarea: {
+    width: "100%",
+    height: 60,
+    padding: 6,
+    border: "1px solid black",
+  },
+  submit: {
+    width: "100%",
+    padding: 10,
+    background: "black",
+    color: "white",
+    border: "none",
+    cursor: "pointer",
+  },
+};
