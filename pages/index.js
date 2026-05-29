@@ -1,6 +1,8 @@
 import { useState } from "react";
 
 export default function Home() {
+  const today = new Date().toISOString().split("T")[0];
+
   const services = [
     { en: "Basic Design", zh: "基础设计", time: 2 },
     { en: "Design Set", zh: "设计款", time: 3 },
@@ -10,12 +12,10 @@ export default function Home() {
 
   const timeSlots = [10, 12, 14, 16, 18];
 
-  const today = new Date().toISOString().split("T")[0];
-
-  const [selectedDate, setSelectedDate] = useState(today);
-  const [selectedService, setSelectedService] = useState(null);
+  const [date, setDate] = useState(today);
+  const [service, setService] = useState(null);
   const [extra, setExtra] = useState(false);
-  const [selectedTime, setSelectedTime] = useState(null);
+  const [time, setTime] = useState(null);
 
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
@@ -26,85 +26,69 @@ export default function Home() {
 
   const [cancelId, setCancelId] = useState("");
   const [cancelContact, setCancelContact] = useState("");
-  const [cancelMessage, setCancelMessage] = useState("");
+  const [cancelMsg, setCancelMsg] = useState("");
 
-  const totalTime = selectedService
-    ? selectedService.time + (extra ? 1 : 0)
-    : 0;
+  const total = service ? service.time + (extra ? 1 : 0) : 0;
+  const dayBookings = bookings.filter((b) => b.date === date);
 
-  const dayBookings = bookings.filter((b) => b.date === selectedDate);
-
-  const isAvailable = (start) => {
-    if (!totalTime) return true;
-
-    const end = start + totalTime;
-
-    return !dayBookings.some((b) => {
-      return start < b.end && end > b.start;
-    });
+  const available = (start) => {
+    if (!service) return false;
+    const end = start + total;
+    return !dayBookings.some((b) => start < b.end && end > b.start);
   };
 
-  const createBookingId = () => {
-    const random = Math.floor(1000 + Math.random() * 9000);
-    const datePart = selectedDate.replaceAll("-", "").slice(4);
-    return `NB-${datePart}-${random}`;
+  const makeId = () => {
+    return `NB-${date.replaceAll("-", "").slice(4)}-${Math.floor(
+      1000 + Math.random() * 9000
+    )}`;
   };
 
-  const handleSubmit = () => {
-    if (!selectedDate || !selectedService || !selectedTime || !name || !contact) {
-      return;
-    }
+  const submit = () => {
+    if (!date || !service || !time || !name || !contact) return;
 
-    if (!isAvailable(selectedTime)) {
-      alert("This time is no longer available / 该时段已被预约");
-      return;
-    }
-
-    const newBooking = {
-      id: createBookingId(),
-      date: selectedDate,
-      start: selectedTime,
-      end: selectedTime + totalTime,
+    const booking = {
+      id: makeId(),
+      date,
+      start: time,
+      end: time + total,
       name,
       contact,
-      serviceEn: selectedService.en,
-      serviceZh: selectedService.zh,
-      totalTime,
+      serviceEn: service.en,
+      serviceZh: service.zh,
+      total,
       note,
     };
 
-    setBookings([...bookings, newBooking]);
-    setSuccess(newBooking);
+    setBookings([...bookings, booking]);
+    setSuccess(booking);
 
-    setSelectedService(null);
+    setService(null);
     setExtra(false);
-    setSelectedTime(null);
+    setTime(null);
     setName("");
     setContact("");
     setNote("");
   };
 
-  const handleCancel = () => {
-    const target = bookings.find(
+  const cancelBooking = () => {
+    const found = bookings.find(
       (b) =>
-        b.id.trim().toLowerCase() === cancelId.trim().toLowerCase() &&
-        b.contact.trim().toLowerCase() === cancelContact.trim().toLowerCase()
+        b.id.toLowerCase() === cancelId.trim().toLowerCase() &&
+        b.contact.toLowerCase() === cancelContact.trim().toLowerCase()
     );
 
-    if (!target) {
-      setCancelMessage("未找到预约 / Booking not found");
+    if (!found) {
+      setCancelMsg("未找到预约 / Booking not found");
       return;
     }
 
-    setBookings(bookings.filter((b) => b.id !== target.id));
-    setCancelMessage("预约已取消 / Booking cancelled");
-
+    setBookings(bookings.filter((b) => b.id !== found.id));
+    setCancelMsg("预约已取消 / Booking cancelled");
     setCancelId("");
     setCancelContact("");
   };
 
-  const canSubmit =
-    selectedDate && selectedService && selectedTime && name && contact;
+  const canSubmit = date && service && time && name && contact;
 
   return (
     <div style={styles.page}>
@@ -119,41 +103,36 @@ export default function Home() {
         <Section title="Calendar / 选择日期">
           <input
             type="date"
-            value={selectedDate}
             min={today}
+            value={date}
             onChange={(e) => {
-              setSelectedDate(e.target.value);
-              setSelectedTime(null);
+              setDate(e.target.value);
+              setTime(null);
               setSuccess(null);
             }}
-            style={styles.dateInput}
+            style={styles.input}
           />
         </Section>
 
         <Section title="Select Ritual / 选择套餐">
           <div style={styles.grid}>
-            {services.map((item) => {
-              const active = selectedService?.en === item.en;
-
-              return (
-                <button
-                  key={item.en}
-                  onClick={() => {
-                    setSelectedService(item);
-                    setSelectedTime(null);
-                    setSuccess(null);
-                  }}
-                  style={{
-                    ...styles.card,
-                    ...(active ? styles.activeCard : {}),
-                  }}
-                >
-                  <strong>{item.en}</strong>
-                  <span>{item.zh}</span>
-                  <em>{item.time}h</em>
-                </button>
-              );
-            })}
+            {services.map((s) => (
+              <button
+                key={s.en}
+                onClick={() => {
+                  setService(s);
+                  setTime(null);
+                }}
+                style={{
+                  ...styles.card,
+                  ...(service?.en === s.en ? styles.active : {}),
+                }}
+              >
+                <strong>{s.en}</strong>
+                <span>{s.zh}</span>
+                <em>{s.time}h</em>
+              </button>
+            ))}
           </div>
         </Section>
 
@@ -161,12 +140,11 @@ export default function Home() {
           <button
             onClick={() => {
               setExtra(!extra);
-              setSelectedTime(null);
-              setSuccess(null);
+              setTime(null);
             }}
             style={{
-              ...styles.optionButton,
-              ...(extra ? styles.activeCard : {}),
+              ...styles.option,
+              ...(extra ? styles.active : {}),
             }}
           >
             Extension Ritual / 延长 +1h
@@ -176,25 +154,20 @@ export default function Home() {
         <Section title="Select Time / 选择时段">
           <div style={styles.timeGrid}>
             {timeSlots.map((t) => {
-              const available = isAvailable(t);
-              const active = selectedTime === t;
-
+              const ok = available(t);
               return (
                 <button
                   key={t}
-                  disabled={!available || !selectedService}
-                  onClick={() => {
-                    setSelectedTime(t);
-                    setSuccess(null);
-                  }}
+                  disabled={!ok}
+                  onClick={() => setTime(t)}
                   style={{
-                    ...styles.timeButton,
-                    ...(active ? styles.activeCard : {}),
-                    ...(!available || !selectedService ? styles.disabled : {}),
+                    ...styles.timeBtn,
+                    ...(time === t ? styles.active : {}),
+                    ...(!ok ? styles.disabled : {}),
                   }}
                 >
                   {t}:00
-                  {!available && <span>FULL / 已满</span>}
+                  {!ok && service && <span>FULL / 已满</span>}
                 </button>
               );
             })}
@@ -203,7 +176,7 @@ export default function Home() {
 
         <Section title="Total Time / 总时长">
           <div style={styles.total}>
-            {totalTime ? `${totalTime} hours / ${totalTime}小时` : "--"}
+            {total ? `${total} hours / ${total}小时` : "--"}
           </div>
         </Section>
 
@@ -214,14 +187,12 @@ export default function Home() {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-
           <input
             style={styles.input}
             placeholder="Contact / 联系方式（WeChat / LINE）"
             value={contact}
             onChange={(e) => setContact(e.target.value)}
           />
-
           <textarea
             style={styles.textarea}
             placeholder="Describe your nail desire... / 请简单描述你的美甲需求"
@@ -231,24 +202,18 @@ export default function Home() {
         </Section>
 
         <Section title="Confirm / 确认预约">
-          <p style={styles.preview}>
-            Date / 日期：{selectedDate || "--"}
-          </p>
-          <p style={styles.preview}>
+          <p>Date / 日期：{date}</p>
+          <p>
             Ritual / 套餐：
-            {selectedService
-              ? `${selectedService.en} / ${selectedService.zh}`
-              : "--"}
+            {service ? `${service.en} / ${service.zh}` : "--"}
           </p>
-          <p style={styles.preview}>
+          <p>
             Time / 时间：
-            {selectedTime
-              ? `${selectedTime}:00 - ${selectedTime + totalTime}:00`
-              : "--"}
+            {time ? `${time}:00 - ${time + total}:00` : "--"}
           </p>
 
           <button
-            onClick={handleSubmit}
+            onClick={submit}
             disabled={!canSubmit}
             style={{
               ...styles.submit,
@@ -260,40 +225,33 @@ export default function Home() {
         </Section>
 
         {success && (
-          <section style={styles.successBox}>
+          <div style={styles.success}>
             <h2>预约成功 / Booking Confirmed</h2>
             <p>
-              Booking ID / 预约编号：
-              <strong>{success.id}</strong>
+              Booking ID / 预约编号：<strong>{success.id}</strong>
             </p>
-            <p>
-              请截图保存预约编号。取消预约时需要填写编号和联系方式。
-              <br />
-              Please save your booking ID.
-            </p>
-          </section>
+            <p>请截图保存，取消预约时需要填写编号和联系方式。</p>
+          </div>
         )}
 
         <Section title="Schedule / 当日排单">
           {dayBookings.length === 0 ? (
-            <p style={styles.empty}>No booking yet / 暂无预约</p>
+            <p>No booking yet / 暂无预约</p>
           ) : (
             dayBookings
               .slice()
               .sort((a, b) => a.start - b.start)
               .map((b) => (
-                <div key={b.id} style={styles.bookingCard}>
+                <div key={b.id} style={styles.booking}>
                   <div>
                     <strong>
                       {b.start}:00 - {b.end}:00
                     </strong>
                     <br />
-                    <span>
-                      {b.serviceEn} / {b.serviceZh}
-                    </span>
+                    {b.serviceEn} / {b.serviceZh}
                   </div>
                   <div style={{ textAlign: "right" }}>
-                    <span>{b.name}</span>
+                    {b.name}
                     <br />
                     <small>{b.id}</small>
                   </div>
@@ -309,22 +267,16 @@ export default function Home() {
             value={cancelId}
             onChange={(e) => setCancelId(e.target.value)}
           />
-
           <input
             style={styles.input}
             placeholder="Contact / 预约时填写的联系方式"
             value={cancelContact}
             onChange={(e) => setCancelContact(e.target.value)}
           />
-
-          <button
-            onClick={handleCancel}
-            style={styles.cancelButton}
-          >
+          <button onClick={cancelBooking} style={styles.cancel}>
             Cancel / 取消
           </button>
-
-          {cancelMessage && <p style={styles.preview}>{cancelMessage}</p>}
+          {cancelMsg && <p>{cancelMsg}</p>}
         </Section>
       </main>
     </div>
@@ -343,7 +295,7 @@ function Section({ title, children }) {
 const styles = {
   page: {
     minHeight: "100vh",
-    background: "#ffffff",
+    background: "#fff",
     padding: "32px 16px",
     fontFamily: "monospace",
   },
@@ -358,7 +310,6 @@ const styles = {
     textAlign: "center",
     fontSize: 38,
     letterSpacing: 1,
-    marginBottom: 12,
   },
   subtitle: {
     textAlign: "center",
@@ -372,7 +323,6 @@ const styles = {
   sectionTitle: {
     fontSize: 20,
     marginBottom: 12,
-    fontWeight: 500,
   },
   grid: {
     display: "grid",
@@ -388,28 +338,21 @@ const styles = {
     fontSize: 18,
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
     gap: 4,
+    fontFamily: "monospace",
   },
-  activeCard: {
+  active: {
     background: "#666",
     color: "#fff",
   },
-  optionButton: {
+  option: {
     border: "3px solid #000",
     background: "#fff",
     padding: "14px 18px",
     fontSize: 18,
     cursor: "pointer",
-  },
-  dateInput: {
-    width: "100%",
-    boxSizing: "border-box",
-    padding: 14,
-    border: "3px solid #000",
-    fontSize: 18,
-    background: "#fff",
     fontFamily: "monospace",
   },
   timeGrid: {
@@ -417,24 +360,24 @@ const styles = {
     gridTemplateColumns: "repeat(5, 1fr)",
     gap: 10,
   },
-  timeButton: {
+  timeBtn: {
     minHeight: 58,
     border: "3px solid #000",
     background: "#fff",
     color: "#000",
-    cursor: "pointer",
     fontSize: 16,
+    cursor: "pointer",
+    fontFamily: "monospace",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
     justifyContent: "center",
-    fontFamily: "monospace",
+    alignItems: "center",
   },
   disabled: {
     background: "#d6d6d6",
     color: "#888",
-    cursor: "not-allowed",
     borderColor: "#999",
+    cursor: "not-allowed",
   },
   total: {
     border: "3px dashed #000",
@@ -460,14 +403,8 @@ const styles = {
     padding: 12,
     border: "2px solid #000",
     fontSize: 16,
-    background: "#fff",
     resize: "vertical",
     fontFamily: "monospace",
-  },
-  preview: {
-    fontSize: 16,
-    margin: "8px 0",
-    lineHeight: 1.6,
   },
   submit: {
     width: "100%",
@@ -485,13 +422,13 @@ const styles = {
     borderColor: "#aaa",
     cursor: "not-allowed",
   },
-  successBox: {
+  success: {
     border: "3px dashed #000",
     padding: 18,
     marginBottom: 28,
     background: "#fff",
   },
-  bookingCard: {
+  booking: {
     background: "#fff",
     border: "2px solid #000",
     padding: 12,
@@ -500,7 +437,7 @@ const styles = {
     justifyContent: "space-between",
     gap: 10,
   },
-  cancelButton: {
+  cancel: {
     width: "100%",
     padding: 14,
     background: "#fff",
@@ -509,8 +446,5 @@ const styles = {
     fontSize: 16,
     cursor: "pointer",
     fontFamily: "monospace",
-  },
-  empty: {
-    color: "#666",
   },
 };
