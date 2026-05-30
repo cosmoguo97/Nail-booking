@@ -93,7 +93,7 @@ export default function Home() {
     <div style={styles.page}>
       <main style={styles.container}>
         <div style={styles.logoWrap}>
-          <img src="/MPBLOGO.png" alt="Millennium Bug Palace" style={styles.logo} />
+          <img src="/mbplogort.png" alt="Millennium Bug Palace" style={styles.logo} />
         </div>
 
         <h1 style={styles.title}>atelier NAILBUG</h1>
