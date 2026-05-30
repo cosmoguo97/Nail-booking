@@ -93,7 +93,7 @@ export default function Home() {
     <div style={styles.page}>
       <main style={styles.container}>
         <div style={styles.logoWrap}>
-          <img src="/MBPLOGO.png" alt="Millennium Bug Palace" style={styles.logo} />
+          <img src="/MPBLOGO.png" alt="Millennium Bug Palace" style={styles.logo} />
         </div>
 
         <h1 style={styles.title}>atelier NAILBUG</h1>
@@ -296,7 +296,7 @@ export default function Home() {
             <img src="/atelier.png" alt="atelier NAILBUG" style={styles.footerIcon} />
           </a>
 
-          <a href="https://instagram.com/YOUR_MBP_LINK" target="_blank" rel="noreferrer">
+          <a href="https://instagram.com/YOUR_MPB_LINK" target="_blank" rel="noreferrer">
             <img src="/bug palace.png" alt="Millennium Bug Palace" style={styles.footerIcon} />
           </a>
         </div>
