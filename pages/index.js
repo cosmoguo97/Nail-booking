@@ -322,13 +322,13 @@ const styles = {
     fontFamily: "monospace",
   },
 
-  container: {
-    maxWidth: 760,
-    margin: "0 auto",
-    padding: 32,
-    background: "#f3f3f3",
-    border: "3px solid #000",
-  },
+container: {
+  width: "90vw",
+  maxWidth: 760,
+  minWidth: 320,
+  margin: "0 auto",
+  padding: 32,
+},
 
   logoWrap: {
     display: "flex",
@@ -336,11 +336,12 @@ const styles = {
     marginBottom: 16,
   },
 
-  logo: {
-    width: 280,
-    maxWidth: "100%",
-    objectFit: "contain",
-  },
+ logo: {
+  width: "60%",
+  maxWidth: 420,
+  minWidth: 220,
+  objectFit: "contain",
+},
 
   title: {
     textAlign: "center",
@@ -519,9 +520,10 @@ const styles = {
     borderTop: "2px solid #000",
   },
 
-  footerIcon: {
-    height: 48,
-    width: "auto",
-    cursor: "pointer",
-  },
+footerIcon: {
+  width: "12vw",
+  maxWidth: 80,
+  minWidth: 40,
+  height: "auto",
+},
 };
