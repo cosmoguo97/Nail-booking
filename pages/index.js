@@ -336,12 +336,12 @@ container: {
     marginBottom: 16,
   },
 
- logo: {
+logo: {
   width: "60%",
   maxWidth: 420,
   minWidth: 220,
   objectFit: "contain",
-},
+}，
 
   title: {
     textAlign: "center",
