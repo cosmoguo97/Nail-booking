@@ -315,12 +315,12 @@ function Section({ title, children }) {
 }
 
 const styles = {
-  page: {
-    minHeight: "100vh",
-    background: "#fff",
-    padding: "32px 16px",
-    fontFamily: "monospace",
-  },
+page: {
+  minHeight: "100vh",
+  background: "#DDF8E8",
+  padding: "32px 16px",
+  fontFamily: "monospace",
+},
 
 container: {
   width: "90vw",
@@ -337,11 +337,11 @@ container: {
   },
 
 logo: {
-  width: "60%",
-  maxWidth: 420,
-  minWidth: 220,
+  width: "70%",
+  maxWidth: 520,
+  minWidth: 240,
   objectFit: "contain",
-}，
+},
 
   title: {
     textAlign: "center",
@@ -356,12 +356,15 @@ logo: {
     marginBottom: 32,
   },
 
-  contactBox: {
-    background: "#fff",
-    border: "2px solid #000",
-    padding: 14,
-    lineHeight: 1.7,
-  },
+container: {
+  width: "90vw",
+  maxWidth: 900,
+  minWidth: 320,
+  margin: "0 auto",
+  padding: 32,
+  background: "#f3f3f3",
+  border: "3px solid #000",
+},
 
   section: {
     marginBottom: 28,
