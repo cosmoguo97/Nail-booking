@@ -291,15 +291,32 @@ export default function Home() {
           {cancelMsg && <p>{cancelMsg}</p>}
         </Section>
 
-        <div style={styles.footerBrand}>
-          <a href="https://instagram.com/YOUR_ATELIER_LINK" target="_blank" rel="noreferrer">
-            <img src="/atelier.png" alt="atelier NAILBUG" style={styles.footerIcon} />
-          </a>
+           <div style={styles.sideLogos}>
+  <a
+    href="https://instagram.com/YOUR_ATELIER_LINK"
+    target="_blank"
+    rel="noreferrer"
+  >
+    <img
+      src="/atelier.png"
+      alt="atelier"
+      style={styles.sideLogo}
+    />
+  </a>
 
-          <a href="https://instagram.com/YOUR_MPB_LINK" target="_blank" rel="noreferrer">
-            <img src="/bug palace.png" alt="Millennium Bug Palace" style={styles.footerIcon} />
-          </a>
-        </div>
+  <a
+    href="https://instagram.com/YOUR_MBP_LINK"
+    target="_blank"
+    rel="noreferrer"
+  >
+    <img
+      src="/bug palace.png"
+      alt="mbp"
+      style={styles.sideLogo}
+    />
+  </a>
+</div>
+
       </main>
     </div>
   );
@@ -317,29 +334,33 @@ function Section({ title, children }) {
 const styles = {
 page: {
   minHeight: "100vh",
-  background: "#DDF8E8",
+  background: "##00FF00",
   padding: "32px 16px",
   fontFamily: "monospace",
 },
+ 
 
 container: {
   width: "90vw",
-  maxWidth: 760,
+  maxWidth: 900,
   minWidth: 320,
   margin: "0 auto",
   padding: 32,
+  background: "#f3f3f3",
+  border: "3px solid #000",
 },
 
-  logoWrap: {
-    display: "flex",
-    justifyContent: "center",
-    marginBottom: 16,
-  },
+logoWrap: {
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
+  marginBottom: 24,
+},
 
 logo: {
-  width: "70%",
-  maxWidth: 520,
-  minWidth: 240,
+  width: "100%",
+  maxWidth: "100%",
+  height: "auto",
   objectFit: "contain",
 },
 
@@ -513,20 +534,13 @@ container: {
     fontFamily: "monospace",
   },
 
-  footerBrand: {
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    gap: 24,
-    marginTop: 60,
-    paddingTop: 24,
-    borderTop: "2px solid #000",
-  },
-
-footerIcon: {
-  width: "12vw",
-  maxWidth: 80,
-  minWidth: 40,
-  height: "auto",
+sideLogos: {
+  position: "fixed",
+  left: 0,
+  right: 0,
+  top: "50%",
+  transform: "translateY(-50%)",
+  pointerEvents: "auto",
 },
+
 };
