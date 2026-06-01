@@ -332,6 +332,8 @@ function Section({ title, children }) {
 }
 
 const styles = {
+
+ background: "#00FF00",
 page: {
   minHeight: "100vh",
   background: "#00FF00",
@@ -543,5 +545,4 @@ sideLogo: {
   height: "auto",
 },
 },
-
 };
