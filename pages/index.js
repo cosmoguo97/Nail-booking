@@ -91,23 +91,31 @@ export default function Home() {
 
   return (
     <div style={styles.page}>
-   <header style={styles.header}>
-  <a
-    href="https://instagram.com/YOUR_ATELIER"
-    target="_blank"
-    rel="noreferrer"
-  >
-    <img src="/11.png" alt="atelier NAILBUG" style={styles.headerIcon} />
-  </a>
+   <header style={styles.topHeader}>
+    <a
+      href="YOUR_ATELIER_LINK"
+      target="_blank"
+      rel="noreferrer"
+    >
+      <img
+        src="/11.png"
+        alt="atelier NAILBUG"
+        style={styles.topLogo}
+      />
+    </a>
 
-  <a
-    href="https://instagram.com/YOUR_MBP"
-    target="_blank"
-    rel="noreferrer"
-  >
-    <img src="/bugpalacesmall.png" alt="Millennium Bug Palace" style={styles.headerIcon} />
-  </a>
-</header>
+    <a
+      href="YOUR_MBP_LINK"
+      target="_blank"
+      rel="noreferrer"
+    >
+      <img
+        src="/bugpalacesmall.png"
+        alt="Millennium Bug Palace"
+        style={styles.topLogo}
+      />
+    </a>
+  </header>
       <main style={styles.container}>
 
    
@@ -328,25 +336,38 @@ function Section({ title, children }) {
 }
 
 const styles = {
+topHeader: {
+  width: "100%",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  padding: "12px 40px",
+  boxSizing: "border-box",
+  background: "#01FF01",
+  borderBottom: "2px solid #000",
+},
+
+topLogo: {
+  width: 48,
+  height: 48,
+  objectFit: "contain",
+},
 
 page: {
   minHeight: "100vh",
   position: "relative",
   background: "#01FF01",
-  padding: "32px 16px",
   fontFamily: "monospace",
 },
-
 container: {
   width: "90vw",
   maxWidth: 900,
   minWidth: 320,
-  margin: "0 auto",
+  margin: "40px auto",
   padding: 32,
   background: "#D3D3D3",
   border: "3px solid #000",
 },
-
 logoWrap: {
   width: "100%",
   display: "flex",
@@ -522,19 +543,6 @@ logo: {
     cursor: "pointer",
     fontFamily: "monospace",
   },
- sheader: {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginBottom: 24,
-},
-
-headerIcon: {
-  width: 64,
-  height: 64,
-  objectFit: "contain",
-  display: "block",
-},
 
 
 };
