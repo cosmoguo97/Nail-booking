@@ -92,7 +92,23 @@ export default function Home() {
   return (
     <div style={styles.page}>
       <main style={styles.container}>
+<header style={styles.header}>
+  <a
+    href="https://instagram.com/YOUR_ATELIER"
+    target="_blank"
+    rel="noreferrer"
+  >
+    <img src="/11.png" alt="atelier NAILBUG" style={styles.headerIcon} />
+  </a>
 
+  <a
+    href="https://instagram.com/YOUR_MBP"
+    target="_blank"
+    rel="noreferrer"
+  >
+    <img src="/bugpalacesmall.png" alt="Millennium Bug Palace" style={styles.headerIcon} />
+  </a>
+</header>
    
         <div style={styles.logoWrap}>
           <img src="/mbplogort.png" alt="Millennium Bug Palace" style={styles.logo} />
@@ -296,31 +312,6 @@ export default function Home() {
       
            </main>
 
-<div style={styles.sideLogos}>
-  <a
-    href="https://instagram.com/YOUR_ATELIER"
-    target="_blank"
-    rel="noreferrer"
-  >
-    <img
-      src="/11.png"
-      alt="atelier NAILBUG"
-      style={styles.sideLogo}
-    />
-  </a>
-
-  <a
-    href="https://instagram.com/YOUR_MBP"
-    target="_blank"
-    rel="noreferrer"
-  >
-    <img
-      src="/bugpalacesmall.png"
-      alt="Millennium Bug Palace"
-      style={styles.sideLogo}
-    />
-  </a>
-</div>
      
     </div>
   );
@@ -530,22 +521,18 @@ logo: {
     cursor: "pointer",
     fontFamily: "monospace",
   },
- sideLogos: {
-  position: "absolute",
-  top: 300,
-  left: 0,
-  width: "100%",
+ sheader: {
   display: "flex",
   justifyContent: "space-between",
-  pointerEvents: "none",
+  alignItems: "center",
+  marginBottom: 24,
 },
 
-sideLogo: {
-  width: 300,
-  height: "auto",
-  opacity: 0.8,
-  margin: "0 30px",
-  pointerEvents: "auto",
+headerIcon: {
+  width: 64,
+  height: 64,
+  objectFit: "contain",
+  display: "block",
 },
 
 
