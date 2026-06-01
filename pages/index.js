@@ -312,10 +312,10 @@ export default function Home() {
     rel="noreferrer"
   >
     <img
-      src="/atelier.png"
-      alt="atelier"
+      src="/1.png"
+      alt="1"
       style={{
-        width: 32,
+        width: 16,
         height: "auto",
         opacity: 0.75,
       }}
@@ -331,7 +331,7 @@ export default function Home() {
       src="/bug palace.png"
       alt="bug palace"
       style={{
-        width: 32,
+        width: 16,
         height: "auto",
         opacity: 0.75,
       }}
