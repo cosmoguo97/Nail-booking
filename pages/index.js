@@ -528,21 +528,11 @@ logo: {
     fontFamily: "monospace",
   },
 
-sideLogos: {
-  width: "90vw",
-  maxWidth: 1300,
-  margin: "40px auto 0",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  pointerEvents: "auto",
-},
-
 sideLogo: {
-  width: "10vw",
-  maxWidth: 120,
-  minWidth: 48,
+  width: "4vw",
+  maxWidth: 56,
+  minWidth: 24,
   height: "auto",
-},
+
 },
 };
