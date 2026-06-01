@@ -46,10 +46,10 @@ const loadBookings = async () => {
   const totalTime = service ? service.time + (extension ? 1 : 0) : 0;
   const dayBookings = bookings.filter((b) => b.date === date);
 
-  const isAvailable = (start) => {
+  const isAvailable = (start_time) => {
     if (!service) return false;
-    const end = start + totalTime;
-    return !dayBookings.some((b) => start < b.end && end > b.start);
+    const end_time = start_time + totalTime;
+    return !dayBookings.some((b) => start_time < b.end_time && end_time > b.start_time);
   };
 
   const makeBookingId = () => {
@@ -64,8 +64,8 @@ const submitBooking = async () => {
   const booking = {
     id: makeBookingId(),
     date,
-    start: time,
-    end: time + totalTime,
+    start_time: time,
+    end_time: time + totalTime,
     name,
     contact,
     service_en: service.en,
@@ -96,16 +96,6 @@ const submitBooking = async () => {
   setNote("");
 };
 
-    setBookings([...bookings, booking]);
-    setSuccess(booking);
-
-    setService(null);
-    setExtension(false);
-    setTime(null);
-    setName("");
-    setContact("");
-    setNote("");
-  };
 
 const cancelBooking = async () => {
   const found = bookings.find(
@@ -322,12 +312,12 @@ const cancelBooking = async () => {
             ) : (
               dayBookings
                 .slice()
-                .sort((a, b) => a.start - b.start)
+                .sort((a, b) => a.start_time - b.start_time)
                 .map((b) => (
                   <div key={b.id} style={styles.booking}>
                     <div>
                       <strong>
-                        {b.start}:00 - {b.end}:00
+                        {b.start_time}:00 - {b.end_time}:00
                       </strong>
                       <br />
                     {b.service_en} / {b.service_zh}
