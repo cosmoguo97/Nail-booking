@@ -91,8 +91,7 @@ export default function Home() {
 
   return (
     <div style={styles.page}>
-      <main style={styles.container}>
-<header style={styles.header}>
+   <header style={styles.header}>
   <a
     href="https://instagram.com/YOUR_ATELIER"
     target="_blank"
@@ -109,6 +108,8 @@ export default function Home() {
     <img src="/bugpalacesmall.png" alt="Millennium Bug Palace" style={styles.headerIcon} />
   </a>
 </header>
+      <main style={styles.container}>
+
    
         <div style={styles.logoWrap}>
           <img src="/mbplogort.png" alt="Millennium Bug Palace" style={styles.logo} />
