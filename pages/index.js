@@ -78,7 +78,7 @@ const submitBooking = async () => {
     .insert([booking]);
 
   if (error) {
-    alert("Booking Failed");
+    alert(`Booking Failed: ${error.message}`);
     console.log(error);
     return;
   }
