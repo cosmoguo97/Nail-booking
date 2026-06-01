@@ -1,4 +1,5 @@
  import { useState } from "react";
+import Head from "next/head";
 
 export default function Home() {
   const today = new Date().toISOString().split("T")[0];
@@ -90,32 +91,24 @@ export default function Home() {
   const canSubmit = date && service && time && name && contact;
 
   return (
-    <div style={styles.page}>
-   <header style={styles.topHeader}>
-    <a
-      href="YOUR_ATELIER_LINK"
-      target="_blank"
-      rel="noreferrer"
-    >
-      <img
-        src="/11.png"
-        alt="atelier NAILBUG"
-        style={styles.topLogo}
-      />
-    </a>
 
-    <a
-      href="YOUR_MBP_LINK"
-      target="_blank"
-      rel="noreferrer"
-    >
-      <img
-        src="/bugpalacesmall.png"
-        alt="Millennium Bug Palace"
-        style={styles.topLogo}
-      />
-    </a>
-  </header>
+     <Head>
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossOrigin=""
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap"
+      rel="stylesheet"
+    />
+  </Head>
+    <div style={styles.page}>
+  
       <main style={styles.container}>
 
    
@@ -153,7 +146,7 @@ export default function Home() {
           />
         </Section>
 
-        <Section title="Select Ritual / 选择套餐">
+        <Section ="Select Ritual / 选择套餐">
           <div style={styles.grid}>
             {services.map((s) => (
               <button
@@ -175,7 +168,7 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section title="Extension / 延长套餐">
+        <Section ="Extension / 延长套餐">
           <button
             onClick={() => {
               setExtra(!extra);
@@ -190,7 +183,7 @@ export default function Home() {
           </button>
         </Section>
 
-        <Section title="Select Time / 选择时段">
+        <Section ="Select Time / 选择时段">
           <div style={styles.timeGrid}>
             {timeSlots.map((t) => {
               const ok = available(t);
@@ -213,13 +206,13 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section title="Total Time / 总时长">
+        <Section ="Total Time / 总时长">
           <div style={styles.total}>
             {total ? `${total} hours / ${total}小时` : "--"}
           </div>
         </Section>
 
-        <Section title="Client Info / 顾客信息">
+        <Section ="Client Info / 顾客信息">
           <input
             style={styles.input}
             placeholder="Name / 姓名"
@@ -242,7 +235,7 @@ export default function Home() {
           />
         </Section>
 
-        <Section title="Confirm / 确认预约">
+        <Section ="Confirm / 确认预约">
           <p>Date / 日期：{date}</p>
           <p>Ritual / 套餐：{service ? `${service.en} / ${service.zh}` : "--"}</p>
           <p>Time / 时间：{time ? `${time}:00 - ${time + total}:00` : "--"}</p>
@@ -269,7 +262,7 @@ export default function Home() {
           </div>
         )}
 
-        <Section title="Schedule / 当日排单">
+        <Section ="Schedule / 当日排单">
           {dayBookings.length === 0 ? (
             <p>No booking yet / 暂无预约</p>
           ) : (
@@ -296,7 +289,7 @@ export default function Home() {
           )}
         </Section>
 
-        <Section title="Cancel Booking / 取消预约">
+        <Section ="Cancel Booking / 取消预约">
           <input
             style={styles.input}
             placeholder="Booking ID / 预约编号"
@@ -326,32 +319,16 @@ export default function Home() {
   );
 }
 
-function Section({ title, children }) {
+function Section({ , children }) {
   return (
     <section style={styles.section}>
-      <h2 style={styles.sectionTitle}>{title}</h2>
+      <h2 style={styles.section}>{}</h2>
       {children}
     </section>
   );
 }
 
 const styles = {
-topHeader: {
-  width: "100%",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  padding: "12px 40px",
-  boxSizing: "border-box",
-  background: "#01FF01",
-  borderBottom: "2px solid #000",
-},
-
-topLogo: {
-  width: 48,
-  height: 48,
-  objectFit: "contain",
-},
 
 page: {
   minHeight: "100vh",
@@ -381,12 +358,24 @@ logo: {
   height: "auto",
   objectFit: "contain",
 },
+title: {
+  width: "100%",
+  textAlign: "center",
 
-  title: {
-    textAlign: "center",
-    fontSize: 38,
-    letterSpacing: 1,
-  },
+  fontFamily: "'DotGothic16', monospace",
+
+  fontSize: 64,
+
+  letterSpacing: "4px",
+
+  padding: "16px 0",
+
+  marginBottom: 20,
+
+  background: "#A6E3B5",
+
+  border: "2px solid #000",
+},
 
   subtitle: {
     textAlign: "center",
