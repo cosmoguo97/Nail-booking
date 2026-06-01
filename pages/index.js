@@ -92,6 +92,8 @@ export default function Home() {
   return (
     <div style={styles.page}>
       <main style={styles.container}>
+
+   
         <div style={styles.logoWrap}>
           <img src="/mbplogort.png" alt="Millennium Bug Palace" style={styles.logo} />
         </div>
@@ -291,9 +293,12 @@ export default function Home() {
           {cancelMsg && <p>{cancelMsg}</p>}
         </Section>
 
-           <div style={styles.sideLogos}>
+       
+
+      </main>
+          <div style={styles.sideLogos}>
   <a
-    href="https://instagram.com/YOUR_ATELIER_LINK"
+    href="https://www.instagram.com/cosmo_the_nomandic/"
     target="_blank"
     rel="noreferrer"
   >
@@ -305,19 +310,17 @@ export default function Home() {
   </a>
 
   <a
-    href="https://instagram.com/YOUR_MBP_LINK"
+    href="https://www.instagram.com/cosmo_the_nomandic/"
     target="_blank"
     rel="noreferrer"
   >
     <img
       src="/bug palace.png"
-      alt="mbp"
+      alt="bug palace"
       style={styles.sideLogo}
     />
   </a>
 </div>
-
-      </main>
     </div>
   );
 }
@@ -336,7 +339,7 @@ const styles = {
 
 page: {
   minHeight: "100vh",
-  background: "(0,252,0)",
+background: "rgb(0,252,0)",,
   padding: "32px 16px",
   fontFamily: "monospace",
 },
@@ -348,7 +351,7 @@ container: {
   minWidth: 320,
   margin: "0 auto",
   padding: 32,
-  background: "#f3f3f3",
+background: "rgb(0,252,0)",,
   border: "3px solid #000",
 },
 
@@ -527,6 +530,21 @@ logo: {
     cursor: "pointer",
     fontFamily: "monospace",
   },
+sideLogos: {
+  width: "90vw",
+  maxWidth: 1200,
+  margin: "30px auto 60px auto",
 
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+},
+
+sideLogo: {
+  width: 28,
+  height: "auto",
+
+  opacity: 0.75,
+},
 
 };
