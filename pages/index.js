@@ -90,23 +90,17 @@ export default function Home() {
 
   const canSubmit = date && service && time && name && contact;
 
-  return (
+return (
+  <>
+    <Head>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link
+        href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap"
+        rel="stylesheet"
+      />
+    </Head>
 
-     <Head>
-    <link
-      rel="preconnect"
-      href="https://fonts.googleapis.com"
-    />
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossOrigin=""
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap"
-      rel="stylesheet"
-    />
-  </Head>
     <div style={styles.page}>
   
       <main style={styles.container}>
@@ -146,7 +140,7 @@ export default function Home() {
           />
         </Section>
 
-        <Section ="Select Ritual / 选择套餐">
+        <Section title="Select Ritual / 选择套餐">
           <div style={styles.grid}>
             {services.map((s) => (
               <button
@@ -316,13 +310,14 @@ export default function Home() {
 
      
     </div>
-  );
+  </>
+);
 }
 
-function Section({ , children }) {
+function Section({ title, children }) {
   return (
     <section style={styles.section}>
-      <h2 style={styles.section}>{}</h2>
+      <h2 style={styles.sectionTitle}>{title}</h2>
       {children}
     </section>
   );
