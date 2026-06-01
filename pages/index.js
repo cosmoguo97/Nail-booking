@@ -1,4 +1,4 @@
- import { useState } from "react";
+import { useState } from "react";
 import Head from "next/head";
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
 
   const [date, setDate] = useState(today);
   const [service, setService] = useState(null);
-  const [extra, setExtra] = useState(false);
+  const [extension, setExtension] = useState(false);
   const [time, setTime] = useState(null);
 
   const [name, setName] = useState("");
@@ -29,33 +29,34 @@ export default function Home() {
   const [cancelContact, setCancelContact] = useState("");
   const [cancelMsg, setCancelMsg] = useState("");
 
-  const total = service ? service.time + (extra ? 1 : 0) : 0;
+  const totalTime = service ? service.time + (extension ? 1 : 0) : 0;
   const dayBookings = bookings.filter((b) => b.date === date);
 
-  const available = (start) => {
+  const isAvailable = (start) => {
     if (!service) return false;
-    const end = start + total;
+    const end = start + totalTime;
     return !dayBookings.some((b) => start < b.end && end > b.start);
   };
 
-  const makeId = () =>
-    `NB-${date.replaceAll("-", "").slice(4)}-${Math.floor(
-      1000 + Math.random() * 9000
-    )}`;
+  const makeBookingId = () => {
+    const dateCode = date.replaceAll("-", "").slice(4);
+    const random = Math.floor(1000 + Math.random() * 9000);
+    return `NB-${dateCode}-${random}`;
+  };
 
-  const submit = () => {
+  const submitBooking = () => {
     if (!date || !service || !time || !name || !contact) return;
 
     const booking = {
-      id: makeId(),
+      id: makeBookingId(),
       date,
       start: time,
-      end: time + total,
+      end: time + totalTime,
       name,
       contact,
       serviceEn: service.en,
       serviceZh: service.zh,
-      total,
+      totalTime,
       note,
     };
 
@@ -63,7 +64,7 @@ export default function Home() {
     setSuccess(booking);
 
     setService(null);
-    setExtra(false);
+    setExtension(false);
     setTime(null);
     setName("");
     setContact("");
@@ -78,240 +79,248 @@ export default function Home() {
     );
 
     if (!found) {
-      setCancelMsg("未找到预约 / Booking not found");
+      setCancelMsg("Booking not found / 未找到预约");
       return;
     }
 
     setBookings(bookings.filter((b) => b.id !== found.id));
-    setCancelMsg("预约已取消 / Booking cancelled");
+    setCancelMsg("Booking cancelled / 预约已取消");
     setCancelId("");
     setCancelContact("");
   };
 
   const canSubmit = date && service && time && name && contact;
 
-return (
-  <>
-    <Head>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link
-        href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap"
-        rel="stylesheet"
-      />
-    </Head>
+  return (
+    <>
+      <Head>
+        <title>atelier NAILBUG Booking</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
 
-    <div style={styles.page}>
-  
-      <main style={styles.container}>
-
-   
-        <div style={styles.logoWrap}>
-          <img src="/mbplogort.png" alt="Millennium Bug Palace" style={styles.logo} />
-        </div>
-
-        <h1 style={styles.title}>atelier NAILBUG</h1>
-
-        <p style={styles.subtitle}>
-          Millennium Bug Palace
-          <br />
-          Online Booking / 线上预约
-        </p>
-
-        <Section title="Contact / 联系方式">
-          <div style={styles.contactBox}>
-            <p>Instagram：cosmo_the_nomandic</p>
-            <p>WeChat：ggnail2000</p>
-            <p>Location：Hangzhou, China</p>
+      <div style={styles.page}>
+        <main style={styles.container}>
+          <div style={styles.logoWrap}>
+            <img
+              src="/mbplogort.png"
+              alt="Millennium Bug Palace"
+              style={styles.logo}
+            />
           </div>
-        </Section>
 
-        <Section title="Calendar / 选择日期">
-          <input
-            type="date"
-            min={today}
-            value={date}
-            onChange={(e) => {
-              setDate(e.target.value);
-              setTime(null);
-              setSuccess(null);
-            }}
-            style={styles.input}
-          />
-        </Section>
+          <h1 style={styles.title}>atelier NAILBUG</h1>
 
-        <Section title="Select Ritual / 选择套餐">
-          <div style={styles.grid}>
-            {services.map((s) => (
-              <button
-                key={s.en}
-                onClick={() => {
-                  setService(s);
-                  setTime(null);
-                }}
-                style={{
-                  ...styles.card,
-                  ...(service?.en === s.en ? styles.active : {}),
-                }}
-              >
-                <strong>{s.en}</strong>
-                <span>{s.zh}</span>
-                <em>{s.time}h</em>
-              </button>
-            ))}
-          </div>
-        </Section>
+          <p style={styles.subtitle}>
+            Millennium Bug Palace
+            <br />
+            Online Booking / 线上预约
+          </p>
 
-        <Section ="Extension / 延长套餐">
-          <button
-            onClick={() => {
-              setExtra(!extra);
-              setTime(null);
-            }}
-            style={{
-              ...styles.option,
-              ...(extra ? styles.active : {}),
-            }}
-          >
-            Extension Ritual / 延长 +1h
-          </button>
-        </Section>
+          <Section title="Contact / 联系方式">
+            <div style={styles.contactBox}>
+              <p>Instagram：cosmo_the_nomandic</p>
+              <p>WeChat：ggnail2000</p>
+              <p>Location：Hangzhou, China</p>
+            </div>
+          </Section>
 
-        <Section ="Select Time / 选择时段">
-          <div style={styles.timeGrid}>
-            {timeSlots.map((t) => {
-              const ok = available(t);
-              return (
+          <Section title="Calendar / 选择日期">
+            <input
+              type="date"
+              min={today}
+              value={date}
+              onChange={(e) => {
+                setDate(e.target.value);
+                setTime(null);
+                setSuccess(null);
+              }}
+              style={styles.input}
+            />
+          </Section>
+
+          <Section title="Select Ritual / 选择套餐">
+            <div style={styles.grid}>
+              {services.map((item) => (
                 <button
-                  key={t}
-                  disabled={!ok}
-                  onClick={() => setTime(t)}
+                  key={item.en}
+                  onClick={() => {
+                    setService(item);
+                    setTime(null);
+                    setSuccess(null);
+                  }}
                   style={{
-                    ...styles.timeBtn,
-                    ...(time === t ? styles.active : {}),
-                    ...(!ok ? styles.disabled : {}),
+                    ...styles.card,
+                    ...(service?.en === item.en ? styles.active : {}),
                   }}
                 >
-                  {t}:00
-                  {!ok && service && <span>FULL / 已满</span>}
+                  <strong>{item.en}</strong>
+                  <span>{item.zh}</span>
+                  <em>{item.time}h</em>
                 </button>
-              );
-            })}
-          </div>
-        </Section>
+              ))}
+            </div>
+          </Section>
 
-        <Section ="Total Time / 总时长">
-          <div style={styles.total}>
-            {total ? `${total} hours / ${total}小时` : "--"}
-          </div>
-        </Section>
+          <Section title="Extension / 延长套餐">
+            <button
+              onClick={() => {
+                setExtension(!extension);
+                setTime(null);
+                setSuccess(null);
+              }}
+              style={{
+                ...styles.option,
+                ...(extension ? styles.active : {}),
+              }}
+            >
+              Extension Ritual / 延长 +1h
+            </button>
+          </Section>
 
-        <Section ="Client Info / 顾客信息">
-          <input
-            style={styles.input}
-            placeholder="Name / 姓名"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+          <Section title="Select Time / 选择时段">
+            <div style={styles.timeGrid}>
+              {timeSlots.map((slot) => {
+                const available = isAvailable(slot);
 
-          <input
-            style={styles.input}
-            placeholder="Contact / 联系方式（WeChat / LINE）"
-            value={contact}
-            onChange={(e) => setContact(e.target.value)}
-          />
+                return (
+                  <button
+                    key={slot}
+                    disabled={!available}
+                    onClick={() => setTime(slot)}
+                    style={{
+                      ...styles.timeButton,
+                      ...(time === slot ? styles.active : {}),
+                      ...(!available ? styles.disabled : {}),
+                    }}
+                  >
+                    {slot}:00
+                    {!available && service && <span>FULL / 已满</span>}
+                  </button>
+                );
+              })}
+            </div>
+          </Section>
 
-          <textarea
-            style={styles.textarea}
-            placeholder="Describe your nail desire... / 请简单描述你的美甲需求"
-            value={note}
-            onChange={(e) => setNote(e.target.value)}
-          />
-        </Section>
+          <Section title="Total Time / 总时长">
+            <div style={styles.totalBox}>
+              {totalTime ? `${totalTime} hours / ${totalTime}小时` : "--"}
+            </div>
+          </Section>
 
-        <Section ="Confirm / 确认预约">
-          <p>Date / 日期：{date}</p>
-          <p>Ritual / 套餐：{service ? `${service.en} / ${service.zh}` : "--"}</p>
-          <p>Time / 时间：{time ? `${time}:00 - ${time + total}:00` : "--"}</p>
+          <Section title="Client Info / 顾客信息">
+            <input
+              style={styles.input}
+              placeholder="Name / 姓名"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
 
-          <button
-            onClick={submit}
-            disabled={!canSubmit}
-            style={{
-              ...styles.submit,
-              ...(!canSubmit ? styles.submitDisabled : {}),
-            }}
-          >
-            Submit Ritual / 提交预约
-          </button>
-        </Section>
+            <input
+              style={styles.input}
+              placeholder="Contact / 联系方式（WeChat / LINE）"
+              value={contact}
+              onChange={(e) => setContact(e.target.value)}
+            />
 
-        {success && (
-          <div style={styles.success}>
-            <h2>预约成功 / Booking Confirmed</h2>
+            <textarea
+              style={styles.textarea}
+              placeholder="Describe your nail desire... / 请简单描述你的美甲需求"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+            />
+          </Section>
+
+          <Section title="Confirm / 确认预约">
+            <p>Date / 日期：{date}</p>
             <p>
-              Booking ID / 预约编号：<strong>{success.id}</strong>
+              Ritual / 套餐：
+              {service ? `${service.en} / ${service.zh}` : "--"}
             </p>
-            <p>请截图保存，取消预约时需要填写编号和联系方式。</p>
-          </div>
-        )}
+            <p>
+              Time / 时间：
+              {time ? `${time}:00 - ${time + totalTime}:00` : "--"}
+            </p>
 
-        <Section ="Schedule / 当日排单">
-          {dayBookings.length === 0 ? (
-            <p>No booking yet / 暂无预约</p>
-          ) : (
-            dayBookings
-              .slice()
-              .sort((a, b) => a.start - b.start)
-              .map((b) => (
-                <div key={b.id} style={styles.booking}>
-                  <div>
-                    <strong>
-                      {b.start}:00 - {b.end}:00
-                    </strong>
-                    <br />
-                    {b.serviceEn} / {b.serviceZh}
-                  </div>
+            <button
+              onClick={submitBooking}
+              disabled={!canSubmit}
+              style={{
+                ...styles.submit,
+                ...(!canSubmit ? styles.submitDisabled : {}),
+              }}
+            >
+              Submit Ritual / 提交预约
+            </button>
+          </Section>
 
-                  <div style={{ textAlign: "right" }}>
-                    {b.name}
-                    <br />
-                    <small>{b.id}</small>
-                  </div>
-                </div>
-              ))
+          {success && (
+            <div style={styles.successBox}>
+              <h2>Booking Confirmed / 预约成功</h2>
+              <p>
+                Booking ID / 预约编号：
+                <strong>{success.id}</strong>
+              </p>
+              <p>请截图保存。取消预约时需要填写预约编号和联系方式。</p>
+            </div>
           )}
-        </Section>
 
-        <Section ="Cancel Booking / 取消预约">
-          <input
-            style={styles.input}
-            placeholder="Booking ID / 预约编号"
-            value={cancelId}
-            onChange={(e) => setCancelId(e.target.value)}
-          />
+          <Section title="Schedule / 当日排单">
+            {dayBookings.length === 0 ? (
+              <p>No booking yet / 暂无预约</p>
+            ) : (
+              dayBookings
+                .slice()
+                .sort((a, b) => a.start - b.start)
+                .map((b) => (
+                  <div key={b.id} style={styles.booking}>
+                    <div>
+                      <strong>
+                        {b.start}:00 - {b.end}:00
+                      </strong>
+                      <br />
+                      {b.serviceEn} / {b.serviceZh}
+                    </div>
 
-          <input
-            style={styles.input}
-            placeholder="Contact / 预约时填写的联系方式"
-            value={cancelContact}
-            onChange={(e) => setCancelContact(e.target.value)}
-          />
+                    <div style={{ textAlign: "right" }}>
+                      {b.name}
+                      <br />
+                      <small>{b.id}</small>
+                    </div>
+                  </div>
+                ))
+            )}
+          </Section>
 
-          <button onClick={cancelBooking} style={styles.cancel}>
-            Cancel / 取消
-          </button>
+          <Section title="Cancel Booking / 取消预约">
+            <input
+              style={styles.input}
+              placeholder="Booking ID / 预约编号"
+              value={cancelId}
+              onChange={(e) => setCancelId(e.target.value)}
+            />
 
-          {cancelMsg && <p>{cancelMsg}</p>}
-        </Section>
+            <input
+              style={styles.input}
+              placeholder="Contact / 预约时填写的联系方式"
+              value={cancelContact}
+              onChange={(e) => setCancelContact(e.target.value)}
+            />
 
-      
-           </main>
+            <button onClick={cancelBooking} style={styles.cancel}>
+              Cancel / 取消
+            </button>
 
-     
-    </div>
-  </>
-);
+            {cancelMsg && <p>{cancelMsg}</p>}
+          </Section>
+        </main>
+      </div>
+    </>
+  );
 }
 
 function Section({ title, children }) {
@@ -324,53 +333,49 @@ function Section({ title, children }) {
 }
 
 const styles = {
+  page: {
+    minHeight: "100vh",
+    background: "#01FF01",
+    fontFamily: "monospace",
+    padding: "40px 0",
+  },
 
-page: {
-  minHeight: "100vh",
-  position: "relative",
-  background: "#01FF01",
-  fontFamily: "monospace",
-},
-container: {
-  width: "90vw",
-  maxWidth: 900,
-  minWidth: 320,
-  margin: "40px auto",
-  padding: 32,
-  background: "#D3D3D3",
-  border: "3px solid #000",
-},
-logoWrap: {
-  width: "100%",
-  display: "flex",
-  justifyContent: "center",
-  marginBottom: 24,
-},
+  container: {
+    width: "90vw",
+    maxWidth: 900,
+    minWidth: 320,
+    margin: "0 auto",
+    padding: 32,
+    background: "#D3D3D3",
+    border: "3px solid #000",
+    boxSizing: "border-box",
+  },
 
-logo: {
-  width: "100%",
-  maxWidth: "100%",
-  height: "auto",
-  objectFit: "contain",
-},
-title: {
-  width: "100%",
-  textAlign: "center",
+  logoWrap: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: 24,
+  },
 
-  fontFamily: "'DotGothic16', monospace",
+  logo: {
+    width: "100%",
+    height: "auto",
+    objectFit: "contain",
+  },
 
-  fontSize: 64,
-
-  letterSpacing: "4px",
-
-  padding: "16px 0",
-
-  marginBottom: 20,
-
-  background: "#A6E3B5",
-
-  border: "2px solid #000",
-},
+  title: {
+    width: "100%",
+    boxSizing: "border-box",
+    textAlign: "center",
+    fontFamily: "'DotGothic16', monospace",
+    fontSize: 56,
+    letterSpacing: "4px",
+    padding: "16px 8px",
+    margin: "0 0 20px",
+    background: "#A6E3B5",
+    border: "2px solid #000",
+  },
 
   subtitle: {
     textAlign: "center",
@@ -379,7 +384,12 @@ title: {
     marginBottom: 32,
   },
 
-
+  contactBox: {
+    background: "#fff",
+    border: "2px solid #000",
+    padding: 14,
+    lineHeight: 1.7,
+  },
 
   section: {
     marginBottom: 28,
@@ -397,7 +407,7 @@ title: {
   },
 
   card: {
-    minHeight: 86,
+    minHeight: 88,
     border: "3px solid #000",
     background: "#fff",
     color: "#000",
@@ -431,7 +441,7 @@ title: {
     gap: 10,
   },
 
-  timeBtn: {
+  timeButton: {
     minHeight: 58,
     border: "3px solid #000",
     background: "#fff",
@@ -446,13 +456,13 @@ title: {
   },
 
   disabled: {
-    background: "#d6d6d6",
-    color: "#888",
+    background: "#c7c7c7",
+    color: "#777",
     borderColor: "#999",
     cursor: "not-allowed",
   },
 
-  total: {
+  totalBox: {
     border: "3px dashed #000",
     padding: 18,
     textAlign: "center",
@@ -500,7 +510,7 @@ title: {
     cursor: "not-allowed",
   },
 
-  success: {
+  successBox: {
     border: "3px dashed #000",
     padding: 18,
     marginBottom: 28,
@@ -527,6 +537,4 @@ title: {
     cursor: "pointer",
     fontFamily: "monospace",
   },
-
-
 };
