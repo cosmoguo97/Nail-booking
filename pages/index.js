@@ -340,7 +340,7 @@ const styles = {
 page: {
   minHeight: "100vh",
   position: "relative",
-  background: "#B6FF8A",
+  background: "rgb(0, 252, 0)",
   padding: "32px 16px",
   fontFamily: "monospace",
 },
@@ -351,7 +351,7 @@ container: {
   minWidth: 320,
   margin: "0 auto",
   padding: 32,
-  background: "rgb(0,0,0)",
+  background: "rgb(245, 245, 245)",
   border: "3px solid #000",
 },
 
@@ -541,7 +541,7 @@ logo: {
 },
 
 sideLogo: {
-  width: 70,
+  width: 300,
   height: "auto",
   opacity: 0.8,
   margin: "0 30px",
