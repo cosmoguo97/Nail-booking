@@ -335,7 +335,7 @@ function Section({ title, children }) {
 const styles = {
   page: {
     minHeight: "100vh",
-    background: "#01FF01",
+    background: "#f576ea",
     fontFamily: "monospace",
     padding: "40px 0",
   },
@@ -373,7 +373,7 @@ const styles = {
     letterSpacing: "4px",
     padding: "16px 8px",
     margin: "0 0 20px",
-    background: "#A6E3B5",
+    background: "#01FF01",
     border: "2px solid #000",
   },
 
