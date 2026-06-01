@@ -333,10 +333,10 @@ function Section({ title, children }) {
 
 const styles = {
 
- background: "#00FF00",
+
 page: {
   minHeight: "100vh",
-  background: "#00FF00",
+  background: "(0,252,0)",
   padding: "32px 16px",
   fontFamily: "monospace",
 },
@@ -528,11 +528,5 @@ logo: {
     fontFamily: "monospace",
   },
 
-sideLogo: {
-  width: "4vw",
-  maxWidth: 56,
-  minWidth: 24,
-  height: "auto",
 
-},
 };
