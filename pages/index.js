@@ -305,32 +305,28 @@ const cancelBooking = async () => {
             </div>
           )}
 
-          <Section title="Schedule / 当日排单">
-            {dayBookings.length === 0 ? (
-              <p>No booking yet / 暂无预约</p>
-            ) : (
-              dayBookings
-                .slice()
-                .sort((a, b) => a.start_time - b.start_time)
-                .map((b) => (
-                  <div key={b.id} style={styles.booking}>
-                    <div>
-                      <strong>
-                        {b.start_time}:00 - {b.end_time}:00
-                      </strong>
-                      <br />
-                    {b.service_en} / {b.service_zh}
-                    </div>
+     <Section title="Today's Availability / 今日可预约时段">
+  <div style={styles.availabilityList}>
+    {timeSlots.map((slot) => {
+      const booked = dayBookings.some(
+        (booking) => slot >= booking.start_time && slot < booking.end_time
+      );
 
-                    <div style={{ textAlign: "right" }}>
-                      {b.name}
-                      <br />
-                      <small>{b.id}</small>
-                    </div>
-                  </div>
-                ))
-            )}
-          </Section>
+      return (
+        <div
+          key={slot}
+          style={{
+            ...styles.availabilityItem,
+            ...(booked ? styles.fullSlot : styles.openSlot),
+          }}
+        >
+          <strong>{slot}:00</strong>
+          <span>{booked ? "FULL / 已约满" : "AVAILABLE / 可预约"}</span>
+        </div>
+      );
+    })}
+  </div>
+</Section>
 
           <Section title="Cancel Booking / 取消预约">
             <input
@@ -562,6 +558,32 @@ const styles = {
     justifyContent: "space-between",
     gap: 10,
   },
+
+  availabilityList: {
+  display: "grid",
+  gridTemplateColumns: "repeat(5, 1fr)",
+  gap: 10,
+},
+
+availabilityItem: {
+  border: "2px solid #000",
+  padding: 12,
+  background: "#fff",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: 6,
+  fontSize: 14,
+},
+
+openSlot: {
+  background: "#A6E3B5",
+},
+
+fullSlot: {
+  background: "#c7c7c7",
+  color: "#777",
+},
 
   cancel: {
     width: "100%",
