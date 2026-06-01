@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
+import { supabase } from "../lib/supabase";
 
 export default function Home() {
   const today = new Date().toISOString().split("T")[0];
@@ -23,6 +24,19 @@ export default function Home() {
   const [note, setNote] = useState("");
 
   const [bookings, setBookings] = useState([]);
+  useEffect(() => {
+  loadBookings();
+}, []);
+
+const loadBookings = async () => {
+  const { data, error } = await supabase
+    .from("bookings")
+    .select("*");
+
+  if (!error) {
+    setBookings(data || []);
+  }
+};
   const [success, setSuccess] = useState(null);
 
   const [cancelId, setCancelId] = useState("");
@@ -44,21 +58,43 @@ export default function Home() {
     return `NB-${dateCode}-${random}`;
   };
 
-  const submitBooking = () => {
-    if (!date || !service || !time || !name || !contact) return;
+const submitBooking = async () => {
+  if (!date || !service || !time || !name || !contact) return;
 
-    const booking = {
-      id: makeBookingId(),
-      date,
-      start: time,
-      end: time + totalTime,
-      name,
-      contact,
-      serviceEn: service.en,
-      serviceZh: service.zh,
-      totalTime,
-      note,
-    };
+  const booking = {
+    id: makeBookingId(),
+    date,
+    start: time,
+    end: time + totalTime,
+    name,
+    contact,
+    service_en: service.en,
+    service_zh: service.zh,
+    total_time: totalTime,
+    note,
+  };
+
+  const { error } = await supabase
+    .from("bookings")
+    .insert([booking]);
+
+  if (error) {
+    alert("Booking Failed");
+    console.log(error);
+    return;
+  }
+
+  await loadBookings();
+
+  setSuccess(booking);
+
+  setService(null);
+  setExtension(false);
+  setTime(null);
+  setName("");
+  setContact("");
+  setNote("");
+};
 
     setBookings([...bookings, booking]);
     setSuccess(booking);
@@ -71,23 +107,34 @@ export default function Home() {
     setNote("");
   };
 
-  const cancelBooking = () => {
-    const found = bookings.find(
-      (b) =>
-        b.id.toLowerCase() === cancelId.trim().toLowerCase() &&
-        b.contact.toLowerCase() === cancelContact.trim().toLowerCase()
-    );
+const cancelBooking = async () => {
+  const found = bookings.find(
+    (b) =>
+      b.id.toLowerCase() === cancelId.trim().toLowerCase() &&
+      b.contact.toLowerCase() === cancelContact.trim().toLowerCase()
+  );
 
-    if (!found) {
-      setCancelMsg("Booking not found / 未找到预约");
-      return;
-    }
+  if (!found) {
+    setCancelMsg("Booking not found / 未找到预约");
+    return;
+  }
 
-    setBookings(bookings.filter((b) => b.id !== found.id));
-    setCancelMsg("Booking cancelled / 预约已取消");
-    setCancelId("");
-    setCancelContact("");
-  };
+  const { error } = await supabase
+    .from("bookings")
+    .delete()
+    .eq("id", found.id);
+
+  if (error) {
+    setCancelMsg("Delete Failed");
+    return;
+  }
+
+  await loadBookings();
+
+  setCancelMsg("Booking cancelled / 预约已取消");
+  setCancelId("");
+  setCancelContact("");
+};
 
   const canSubmit = date && service && time && name && contact;
 
@@ -283,7 +330,7 @@ export default function Home() {
                         {b.start}:00 - {b.end}:00
                       </strong>
                       <br />
-                      {b.serviceEn} / {b.serviceZh}
+                    {b.service_en} / {b.service_zh}
                     </div>
 
                     <div style={{ textAlign: "right" }}>
