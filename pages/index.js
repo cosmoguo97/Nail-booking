@@ -296,48 +296,7 @@ export default function Home() {
        
 
       </main>
-      <div
-  style={{
-    width: "90vw",
-    maxWidth: 1200,
-    margin: "40px auto 60px auto",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  }}
->
-  <a
-    href="https://www.instagram.com/cosmo_the_nomandic/"
-    target="_blank"
-    rel="noreferrer"
-  >
-    <img
-      src="/1.png"
-      alt="1"
-      style={{
-        width: 16,
-        height: "auto",
-        opacity: 0.75,
-      }}
-    />
-  </a>
-
-  <a
-    href="https://www.instagram.com/cosmo_the_nomandic/"
-    target="_blank"
-    rel="noreferrer"
-  >
-    <img
-      src="/bug palace.png"
-      alt="bug palace"
-      style={{
-        width: 16,
-        height: "auto",
-        opacity: 0.75,
-      }}
-    />
-  </a>
-</div>
+     
     </div>
   );
 }
