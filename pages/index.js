@@ -296,7 +296,16 @@ export default function Home() {
        
 
       </main>
-          <div style={styles.sideLogos}>
+      <div
+  style={{
+    width: "90vw",
+    maxWidth: 1200,
+    margin: "40px auto 60px auto",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  }}
+>
   <a
     href="https://www.instagram.com/cosmo_the_nomandic/"
     target="_blank"
@@ -305,7 +314,11 @@ export default function Home() {
     <img
       src="/atelier.png"
       alt="atelier"
-      style={styles.sideLogo}
+      style={{
+        width: 32,
+        height: "auto",
+        opacity: 0.75,
+      }}
     />
   </a>
 
@@ -317,7 +330,11 @@ export default function Home() {
     <img
       src="/bug palace.png"
       alt="bug palace"
-      style={styles.sideLogo}
+      style={{
+        width: 32,
+        height: "auto",
+        opacity: 0.75,
+      }}
     />
   </a>
 </div>
@@ -530,21 +547,6 @@ logo: {
     cursor: "pointer",
     fontFamily: "monospace",
   },
-sideLogos: {
-  width: "90vw",
-  maxWidth: 1200,
-  margin: "30px auto 60px auto",
 
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-},
-
-sideLogo: {
-  width: 28,
-  height: "auto",
-
-  opacity: 0.75,
-},
 
 };
