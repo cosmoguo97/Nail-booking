@@ -340,7 +340,7 @@ const styles = {
 page: {
   minHeight: "100vh",
   position: "relative",
-  background: "rgb(0, 252, 0)",
+  background: "#01FF01",
   padding: "32px 16px",
   fontFamily: "monospace",
 },
@@ -351,7 +351,7 @@ container: {
   minWidth: 320,
   margin: "0 auto",
   padding: 32,
-  background: "rgb(245, 245, 245)",
+  background: "#D3D3D3",
   border: "3px solid #000",
 },
 
