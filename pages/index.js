@@ -13,7 +13,6 @@ export default function Home() {
   ];
 
   const timeSlots = [10, 12, 14, 16, 18];
-
   const [date, setDate] = useState(today);
   const [service, setService] = useState(null);
   const [extension, setExtension] = useState(false);
