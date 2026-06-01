@@ -334,7 +334,7 @@ function Section({ title, children }) {
 const styles = {
 page: {
   minHeight: "100vh",
-  background: "##00FF00",
+  background: "#00FF00",
   padding: "32px 16px",
   fontFamily: "monospace",
 },
@@ -377,15 +377,7 @@ logo: {
     marginBottom: 32,
   },
 
-container: {
-  width: "90vw",
-  maxWidth: 900,
-  minWidth: 320,
-  margin: "0 auto",
-  padding: 32,
-  background: "#f3f3f3",
-  border: "3px solid #000",
-},
+
 
   section: {
     marginBottom: 28,
@@ -535,12 +527,21 @@ container: {
   },
 
 sideLogos: {
-  position: "fixed",
-  left: 0,
-  right: 0,
-  top: "50%",
-  transform: "translateY(-50%)",
+  width: "90vw",
+  maxWidth: 1300,
+  margin: "40px auto 0",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
   pointerEvents: "auto",
+},
+
+sideLogo: {
+  width: "10vw",
+  maxWidth: 120,
+  minWidth: 48,
+  height: "auto",
+},
 },
 
 };
