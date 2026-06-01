@@ -44,6 +44,52 @@ export default function Admin() {
     }
   };
 
+  const exportCSV = () => {
+  const headers = [
+    "Date",
+    "Time",
+    "Name",
+    "Contact",
+    "Service EN",
+    "Service ZH",
+    "Note",
+    "Booking ID",
+  ];
+
+  const rows = filteredBookings.map((b) => [
+    b.date,
+    `${b.start_time}:00 - ${b.end_time}:00`,
+    b.name,
+    b.contact,
+    b.service_en,
+    b.service_zh,
+    b.note || "",
+    b.id,
+  ]);
+
+  const csvContent = [
+    headers.join(","),
+    ...rows.map((row) =>
+      row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(",")
+    ),
+  ].join("\n");
+
+  const blob = new Blob([csvContent], {
+    type: "text/csv;charset=utf-8;",
+  });
+
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = dateFilter
+    ? `nailbug-bookings-${dateFilter}.csv`
+    : "nailbug-bookings-all.csv";
+
+  link.click();
+  URL.revokeObjectURL(url);
+};
+
   if (!authorized) {
     return (
       <div style={styles.loginPage}>
@@ -70,6 +116,8 @@ export default function Admin() {
           >
             Login
           </button>
+
+              
         </div>
       </div>
     );
@@ -105,6 +153,13 @@ export default function Admin() {
         >
           Show All
         </button>
+
+            <button
+  style={styles.button}
+  onClick={exportCSV}
+>
+  Export CSV
+</button>
       </div>
 
       <table style={styles.table}>
