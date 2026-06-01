@@ -293,9 +293,34 @@ export default function Home() {
           {cancelMsg && <p>{cancelMsg}</p>}
         </Section>
 
-       
+      
+           </main>
 
-      </main>
+<div style={styles.sideLogos}>
+  <a
+    href="https://instagram.com/YOUR_ATELIER"
+    target="_blank"
+    rel="noreferrer"
+  >
+    <img
+      src="/11.png"
+      alt="atelier NAILBUG"
+      style={styles.sideLogo}
+    />
+  </a>
+
+  <a
+    href="https://instagram.com/YOUR_MBP"
+    target="_blank"
+    rel="noreferrer"
+  >
+    <img
+      src="/bugpalacesmall.png"
+      alt="Millennium Bug Palace"
+      style={styles.sideLogo}
+    />
+  </a>
+</div>
      
     </div>
   );
@@ -312,14 +337,13 @@ function Section({ title, children }) {
 
 const styles = {
 
-
 page: {
   minHeight: "100vh",
-background: "rgb(0,252,0)",,
+  position: "relative",
+  background: "#B6FF8A",
   padding: "32px 16px",
   fontFamily: "monospace",
 },
- 
 
 container: {
   width: "90vw",
@@ -327,7 +351,7 @@ container: {
   minWidth: 320,
   margin: "0 auto",
   padding: 32,
-background: "rgb(0,252,0)",,
+  background: "rgb(0,0,0)",
   border: "3px solid #000",
 },
 
@@ -506,6 +530,23 @@ logo: {
     cursor: "pointer",
     fontFamily: "monospace",
   },
+ sideLogos: {
+  position: "absolute",
+  top: 300,
+  left: 0,
+  width: "100%",
+  display: "flex",
+  justifyContent: "space-between",
+  pointerEvents: "none",
+},
+
+sideLogo: {
+  width: 70,
+  height: "auto",
+  opacity: 0.8,
+  margin: "0 30px",
+  pointerEvents: "auto",
+},
 
 
 };
