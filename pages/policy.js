@@ -4,7 +4,6 @@ export default function Policy() {
 return ( <main style={styles.page}> <section style={styles.card}> <Link href="/home" style={styles.back}>
 ← HOME </Link>
 
-```
     <h1>预约须知 / Policy</h1>
 
     <h2>Booking</h2>
