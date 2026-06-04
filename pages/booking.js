@@ -573,16 +573,17 @@ const styles = {
     background: "#fff",
   },
 
-  input: {
-    width: "100%",
-    boxSizing: "border-box",
-    marginBottom: 10,
-    padding: 12,
-    border: "2px solid #000",
-    fontSize: 16,
-    background: "#fff",
-    fontFamily: "monospace",
-  },
+
+input: {
+  width: "100%",
+  maxWidth: "100%", 
+  boxSizing: "border-box",
+  padding: 12,
+  fontSize: 16,
+  border: "2px solid #000",
+  background: "#fff",
+  fontFamily: "monospace",
+}
 
   textarea: {
     width: "100%",
