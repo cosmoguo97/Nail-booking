@@ -140,15 +140,15 @@ const cancelBooking = async () => {
       </Head>
 
 <div style={styles.page}>
-  <aside style={styles.sidebar}>
-    <a href="/price-menu-1.png" target="_blank" rel="noreferrer" style={styles.sideLink}>
-      Price Menu<br />价格表
-    </a>
+  // <aside style={styles.sidebar}>
+  //   <a href="/price-menu-1.png" target="_blank" rel="noreferrer" style={styles.sideLink}>
+  //     Price Menu<br />价格表
+  //   </a>
 
-    <a href="/price-menu-2.png" target="_blank" rel="noreferrer" style={styles.sideLink}>
-      Policy<br />预约说明
-    </a>
-  </aside>
+  //   <a href="/price-menu-2.png" target="_blank" rel="noreferrer" style={styles.sideLink}>
+  //     Policy<br />预约说明
+  //   </a>
+  // </aside>
 
   <main style={styles.container}>
           <div style={styles.logoWrap}>
@@ -381,30 +381,30 @@ const styles = {
     fontFamily: "monospace",
     padding: "40px 0",
   },
-  sidebar: {
-  position: "fixed",
-  left: 24,
-  top: "50%",
-  transform: "translateY(-50%)",
-  display: "flex",
-  flexDirection: "column",
-  gap: 12,
-  zIndex: 20,
-},
+//   sidebar: {
+//   position: "fixed",
+//   left: 24,
+//   top: "50%",
+//   transform: "translateY(-50%)",
+//   display: "flex",
+//   flexDirection: "column",
+//   gap: 12,
+//   zIndex: 20,
+// },
 
-sideLink: {
-  display: "block",
-  width: 120,
-  padding: "12px 10px",
-  background: "#fff",
-  color: "#000",
-  border: "2px solid #000",
-  textDecoration: "none",
-  textAlign: "center",
-  fontFamily: "monospace",
-  fontSize: 14,
-  lineHeight: 1.4,
-},
+// sideLink: {
+//   display: "block",
+//   width: 120,
+//   padding: "12px 10px",
+//   background: "#fff",
+//   color: "#000",
+//   border: "2px solid #000",
+//   textDecoration: "none",
+//   textAlign: "center",
+//   fontFamily: "monospace",
+//   fontSize: 14,
+//   lineHeight: 1.4,
+// },
 
 
   container: {
