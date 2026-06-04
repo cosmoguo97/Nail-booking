@@ -2,18 +2,36 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import { supabase } from "../lib/supabase";
 
-export default function Home() {
+export default function Booking() {
   const today = new Date().toISOString().split("T")[0];
 
-  const services = [
-    { en: "Basic Design", zh: "基础设计", time: 2 },
-    { en: "Design Set", zh: "设计款", time: 3 },
-    { en: "Full Art", zh: "全手设计", time: 4 },
-    { en: "Custom Ritual", zh: "高级定制", time: 8 },
+  const brands = [
+    { en: "atelier NAILBUG", zh: "定制设计美甲" },
+    { en: "MBP Salon", zh: "日系沙龙美甲" },
   ];
 
+  const serviceOptions = {
+    "atelier NAILBUG": [
+      { en: "Basic Design", zh: "基础设计", time: 2 },
+      { en: "Design Set", zh: "设计款", time: 3 },
+      { en: "Full Art", zh: "全手设计", time: 4 },
+      { en: "Custom Ritual", zh: "高级定制", time: 8 },
+    ],
+    "MBP Salon": [
+      { en: "One Color / Color Mix", zh: "单色 / 跳色", time: 1.5 },
+      { en: "Churu Cat Eye", zh: "Churu 猫眼", time: 2 },
+      { en: "Hailey Nails", zh: "海莉甲", time: 2 },
+      { en: "Japanese Simple Design", zh: "日系简约设计", time: 2 },
+      { en: "Nuance / Elegant Design", zh: "日系 nuance / 日系精致设计", time: 2.5 },
+      { en: "Japanese Premium", zh: "日系 Premium", time: 3 },
+      { en: "Seasonal Recommendation", zh: "本季推荐款", time: 2 },
+    ],
+  };
+
   const timeSlots = [10, 12, 14, 16, 18];
+
   const [date, setDate] = useState(today);
+  const [brand, setBrand] = useState(null);
   const [service, setService] = useState(null);
   const [extension, setExtension] = useState(false);
   const [time, setTime] = useState(null);
@@ -23,32 +41,52 @@ export default function Home() {
   const [note, setNote] = useState("");
 
   const [bookings, setBookings] = useState([]);
-  useEffect(() => {
-  loadBookings();
-}, []);
-
-const loadBookings = async () => {
-  const { data, error } = await supabase
-    .from("bookings")
-    .select("*");
-
-  if (!error) {
-    setBookings(data || []);
-  }
-};
   const [success, setSuccess] = useState(null);
 
   const [cancelId, setCancelId] = useState("");
   const [cancelContact, setCancelContact] = useState("");
   const [cancelMsg, setCancelMsg] = useState("");
 
+  const services = brand ? serviceOptions[brand.en] : [];
   const totalTime = service ? service.time + (extension ? 1 : 0) : 0;
   const dayBookings = bookings.filter((b) => b.date === date);
 
-  const isAvailable = (start_time) => {
+  useEffect(() => {
+    loadBookings();
+  }, []);
+
+  const loadBookings = async () => {
+    const { data, error } = await supabase
+      .from("bookings")
+      .select("*")
+      .order("date", { ascending: true })
+      .order("start_time", { ascending: true });
+
+    if (error) {
+      console.log("Load bookings error:", error);
+      return;
+    }
+
+    setBookings(data || []);
+  };
+
+  const formatTime = (value) => {
+    if (value === null || value === undefined) return "--";
+    const hour = Math.floor(value);
+    const minute = value % 1 === 0.5 ? "30" : "00";
+    return `${hour}:${minute}`;
+  };
+
+  const isAvailable = (startTime) => {
     if (!service) return false;
-    const end_time = start_time + totalTime;
-    return !dayBookings.some((b) => start_time < b.end_time && end_time > b.start_time);
+
+    const endTime = startTime + totalTime;
+
+    return !dayBookings.some(
+      (booking) =>
+        startTime < booking.end_time &&
+        endTime > booking.start_time
+    );
   };
 
   const makeBookingId = () => {
@@ -57,75 +95,72 @@ const loadBookings = async () => {
     return `NB-${dateCode}-${random}`;
   };
 
-const submitBooking = async () => {
-  if (!date || !service || !time || !name || !contact) return;
+  const submitBooking = async () => {
+    if (!date || !brand || !service || !time || !name || !contact) return;
 
-  const booking = {
-    id: makeBookingId(),
-    date,
-    start_time: time,
-    end_time: time + totalTime,
-    name,
-    contact,
-    service_en: service.en,
-    service_zh: service.zh,
-    total_time: totalTime,
-    note,
+    const booking = {
+      id: makeBookingId(),
+      date,
+      start_time: time,
+      end_time: time + totalTime,
+      name,
+      contact,
+      service_en: `${brand.en} - ${service.en}`,
+      service_zh: `${brand.zh} - ${service.zh}`,
+      total_time: totalTime,
+      note,
+    };
+
+    const { error } = await supabase.from("bookings").insert([booking]);
+
+    if (error) {
+      alert(`Booking Failed: ${error.message}`);
+      console.log(error);
+      return;
+    }
+
+    await loadBookings();
+
+    setSuccess(booking);
+    setBrand(null);
+    setService(null);
+    setExtension(false);
+    setTime(null);
+    setName("");
+    setContact("");
+    setNote("");
   };
 
-  const { error } = await supabase
-    .from("bookings")
-    .insert([booking]);
+  const cancelBooking = async () => {
+    const found = bookings.find(
+      (b) =>
+        b.id.toLowerCase() === cancelId.trim().toLowerCase() &&
+        b.contact.toLowerCase() === cancelContact.trim().toLowerCase()
+    );
 
-  if (error) {
-    alert(`Booking Failed: ${error.message}`);
-    console.log(error);
-    return;
-  }
+    if (!found) {
+      setCancelMsg("Booking not found / 未找到预约");
+      return;
+    }
 
-  await loadBookings();
+    const { error } = await supabase
+      .from("bookings")
+      .delete()
+      .eq("id", found.id);
 
-  setSuccess(booking);
+    if (error) {
+      setCancelMsg(`Delete Failed: ${error.message}`);
+      return;
+    }
 
-  setService(null);
-  setExtension(false);
-  setTime(null);
-  setName("");
-  setContact("");
-  setNote("");
-};
+    await loadBookings();
 
+    setCancelMsg("Booking cancelled / 预约已取消");
+    setCancelId("");
+    setCancelContact("");
+  };
 
-const cancelBooking = async () => {
-  const found = bookings.find(
-    (b) =>
-      b.id.toLowerCase() === cancelId.trim().toLowerCase() &&
-      b.contact.toLowerCase() === cancelContact.trim().toLowerCase()
-  );
-
-  if (!found) {
-    setCancelMsg("Booking not found / 未找到预约");
-    return;
-  }
-
-  const { error } = await supabase
-    .from("bookings")
-    .delete()
-    .eq("id", found.id);
-
-  if (error) {
-    setCancelMsg("Delete Failed");
-    return;
-  }
-
-  await loadBookings();
-
-  setCancelMsg("Booking cancelled / 预约已取消");
-  setCancelId("");
-  setCancelContact("");
-};
-
-  const canSubmit = date && service && time && name && contact;
+  const canSubmit = date && brand && service && time && name && contact;
 
   return (
     <>
@@ -139,18 +174,8 @@ const cancelBooking = async () => {
         />
       </Head>
 
-<div style={styles.page}>
-  // <aside style={styles.sidebar}>
-  //   <a href="/price-menu-1.png" target="_blank" rel="noreferrer" style={styles.sideLink}>
-  //     Price Menu<br />价格表
-  //   </a>
-
-  //   <a href="/price-menu-2.png" target="_blank" rel="noreferrer" style={styles.sideLink}>
-  //     Policy<br />预约说明
-  //   </a>
-  // </aside>
-
-  <main style={styles.container}>
+      <div style={styles.page}>
+        <main style={styles.container}>
           <div style={styles.logoWrap}>
             <img
               src="/mbplogort.png"
@@ -159,10 +184,10 @@ const cancelBooking = async () => {
             />
           </div>
 
-          <h1 style={styles.title}>atelier NAILBUG</h1>
+          <h1 style={styles.title}>Booking</h1>
 
           <p style={styles.subtitle}>
-            Millennium Bug Palace
+            atelier NAILBUG @ Millennium Bug Palace
             <br />
             Online Booking / 线上预约
           </p>
@@ -189,27 +214,54 @@ const cancelBooking = async () => {
             />
           </Section>
 
-          <Section title="Select Ritual / 选择套餐">
+          <Section title="Select Brand / 选择品牌">
             <div style={styles.grid}>
-              {services.map((item) => (
+              {brands.map((item) => (
                 <button
                   key={item.en}
                   onClick={() => {
-                    setService(item);
+                    setBrand(item);
+                    setService(null);
                     setTime(null);
                     setSuccess(null);
                   }}
                   style={{
                     ...styles.card,
-                    ...(service?.en === item.en ? styles.active : {}),
+                    ...(brand?.en === item.en ? styles.active : {}),
                   }}
                 >
                   <strong>{item.en}</strong>
                   <span>{item.zh}</span>
-                  <em>{item.time}h</em>
                 </button>
               ))}
             </div>
+          </Section>
+
+          <Section title="Select Service / 选择套餐">
+            {!brand ? (
+              <p>Please select a brand first / 请先选择品牌</p>
+            ) : (
+              <div style={styles.grid}>
+                {services.map((item) => (
+                  <button
+                    key={item.en}
+                    onClick={() => {
+                      setService(item);
+                      setTime(null);
+                      setSuccess(null);
+                    }}
+                    style={{
+                      ...styles.card,
+                      ...(service?.en === item.en ? styles.active : {}),
+                    }}
+                  >
+                    <strong>{item.en}</strong>
+                    <span>{item.zh}</span>
+                    <em>{item.time}h</em>
+                  </button>
+                ))}
+              </div>
+            )}
           </Section>
 
           <Section title="Extension / 延长套餐">
@@ -244,7 +296,7 @@ const cancelBooking = async () => {
                       ...(!available ? styles.disabled : {}),
                     }}
                   >
-                    {slot}:00
+                    {formatTime(slot)}
                     {!available && service && <span>FULL / 已满</span>}
                   </button>
                 );
@@ -282,14 +334,21 @@ const cancelBooking = async () => {
           </Section>
 
           <Section title="Confirm / 确认预约">
-            <p>Date / 日期：{date}</p>
+            <p>
+              Brand / 品牌：
+              {brand ? `${brand.en} / ${brand.zh}` : "--"}
+            </p>
+
             <p>
               Ritual / 套餐：
               {service ? `${service.en} / ${service.zh}` : "--"}
             </p>
+
+            <p>Date / 日期：{date}</p>
+
             <p>
               Time / 时间：
-              {time ? `${time}:00 - ${time + totalTime}:00` : "--"}
+              {time ? `${formatTime(time)} - ${formatTime(time + totalTime)}` : "--"}
             </p>
 
             <button
@@ -314,29 +373,6 @@ const cancelBooking = async () => {
               <p>请截图保存。取消预约时需要填写预约编号和联系方式。</p>
             </div>
           )}
-
-     <Section title="Today's Availability / 今日可预约时段">
-  <div style={styles.availabilityList}>
-    {timeSlots.map((slot) => {
-      const booked = dayBookings.some(
-        (booking) => slot >= booking.start_time && slot < booking.end_time
-      );
-
-      return (
-        <div
-          key={slot}
-          style={{
-            ...styles.availabilityItem,
-            ...(booked ? styles.fullSlot : styles.openSlot),
-          }}
-        >
-          <strong>{slot}:00</strong>
-          <span>{booked ? "FULL / 已约满" : "AVAILABLE / 可预约"}</span>
-        </div>
-      );
-    })}
-  </div>
-</Section>
 
           <Section title="Cancel Booking / 取消预约">
             <input
@@ -381,31 +417,6 @@ const styles = {
     fontFamily: "monospace",
     padding: "40px 0",
   },
-//   sidebar: {
-//   position: "fixed",
-//   left: 24,
-//   top: "50%",
-//   transform: "translateY(-50%)",
-//   display: "flex",
-//   flexDirection: "column",
-//   gap: 12,
-//   zIndex: 20,
-// },
-
-// sideLink: {
-//   display: "block",
-//   width: 120,
-//   padding: "12px 10px",
-//   background: "#fff",
-//   color: "#000",
-//   border: "2px solid #000",
-//   textDecoration: "none",
-//   textAlign: "center",
-//   fontFamily: "monospace",
-//   fontSize: 14,
-//   lineHeight: 1.4,
-// },
-
 
   container: {
     width: "90vw",
@@ -583,42 +594,6 @@ const styles = {
     marginBottom: 28,
     background: "#fff",
   },
-
-  booking: {
-    background: "#fff",
-    border: "2px solid #000",
-    padding: 12,
-    marginBottom: 10,
-    display: "flex",
-    justifyContent: "space-between",
-    gap: 10,
-  },
-
-  availabilityList: {
-  display: "grid",
-  gridTemplateColumns: "repeat(5, 1fr)",
-  gap: 10,
-},
-
-availabilityItem: {
-  border: "2px solid #000",
-  padding: 12,
-  background: "#fff",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  gap: 6,
-  fontSize: 14,
-},
-
-openSlot: {
-  background: "#A6E3B5",
-},
-
-fullSlot: {
-  background: "#c7c7c7",
-  color: "#777",
-},
 
   cancel: {
     width: "100%",
