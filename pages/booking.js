@@ -203,7 +203,7 @@ useEffect(() => {
       />
     </div>
 
-          <h1 style={styles.title}>Booking</h1>
+          <h1 style={isMobile ? styles.titleMobile : styles.title}>Booking</h1>
 
           <p style={styles.subtitle}>
             atelier NAILBUG @ Millennium Bug Palace
@@ -260,7 +260,7 @@ useEffect(() => {
             {!brand ? (
               <p>Please select a brand first / 请先选择品牌</p>
             ) : (
-              <div style={styles.grid}>
+              <div style={isMobile ? styles.gridMobile : styles.grid}>
                 {services.map((item) => (
                   <button
                     key={item.en}
@@ -300,7 +300,7 @@ useEffect(() => {
           </Section>
 
           <Section title="Select Time / 选择时段">
-            <div style={styles.timeGrid}>
+            <div style={isMobile ? styles.timeGridMobile : styles.timeGrid}>
               {timeSlots.map((slot) => {
                 const available = isAvailable(slot);
 
