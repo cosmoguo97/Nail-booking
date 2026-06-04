@@ -4,6 +4,18 @@ import Link from "next/link";
 import { supabase } from "../lib/supabase";
 
 export default function Booking() {
+  const [isMobile, setIsMobile] = useState(false);
+
+useEffect(() => {
+  const checkMobile = () => {
+    setIsMobile(window.innerWidth <= 768);
+  };
+
+  checkMobile();
+  window.addEventListener("resize", checkMobile);
+
+  return () => window.removeEventListener("resize", checkMobile);
+}, []);
   const today = new Date().toISOString().split("T")[0];
 
   const brands = [
@@ -177,7 +189,7 @@ export default function Booking() {
 
     <div style={styles.page}>
 
-  <main style={styles.container}>
+  <main style={isMobile ? styles.containerMobile : styles.container}>
 
     <Link href="/" style={styles.back}>
       ← HOME
@@ -222,7 +234,7 @@ export default function Booking() {
           </Section>
 
           <Section title="Select Brand / 选择品牌">
-            <div style={styles.grid}>
+            <div style={isMobile ? styles.gridMobile : styles.grid}>
               {brands.map((item) => (
                 <button
                   key={item.en}
@@ -640,5 +652,45 @@ bottomButton: {
   color: "#000",
   textDecoration: "none",
   fontWeight: "bold",
+},
+  containerMobile: {
+  width: "94vw",
+  margin: "0 auto",
+  padding: 18,
+  background: "#D3D3D3",
+  border: "3px solid #000",
+  boxSizing: "border-box",
+},
+
+logoMobile: {
+  width: "100%",
+  maxHeight: 260,
+  height: "auto",
+  objectFit: "contain",
+},
+
+titleMobile: {
+  width: "100%",
+  boxSizing: "border-box",
+  textAlign: "center",
+  fontFamily: "'DotGothic16', monospace",
+  fontSize: 36,
+  letterSpacing: "2px",
+  padding: "12px 8px",
+  margin: "0 0 18px",
+  background: "#01FF01",
+  border: "2px solid #000",
+},
+
+gridMobile: {
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  gap: 12,
+},
+
+timeGridMobile: {
+  display: "grid",
+  gridTemplateColumns: "1fr 1fr",
+  gap: 10,
 },
 };
