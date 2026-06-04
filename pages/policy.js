@@ -67,8 +67,6 @@ return ( <main style={styles.page}> <section style={styles.card}> <Link href="/h
     </p>
   </section>
 </main>
-
-
 );
 }
 
