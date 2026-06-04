@@ -46,8 +46,8 @@ export default function Home() {
 
           <div style={styles.menu}>
             <MenuButton href="/booking" text="预约美甲 / BOOKING" />
-            <MenuButton href="/atelier-price" text="atelier NAILBUG 价格表" />
-            <MenuButton href="/salon-price" text="MBP Salon 价格表" />
+            <MenuButton href="/atelier-price" text="atelier NAILBUG Pricing/价格表" />
+            <MenuButton href="/salon-price" text="MBP Salon Pricing/价格表" />
             <MenuButton href="/about" text="品牌介绍 / ABOUT" />
             <MenuButton href="/policy" text="注意事项 / POLICY" />
             <MenuButton href="/contact" text="联系方式 / CONTACT" />
@@ -69,7 +69,7 @@ function MenuButton({ href, text }) {
 const styles = {
   page: {
     minHeight: "100vh",
-    background: "#f576ea",
+    background: "ff13f0",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
