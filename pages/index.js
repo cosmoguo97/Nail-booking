@@ -8,15 +8,20 @@ export default function Home() {
         <title>atelier NAILBUG @ Millennium Bug Palace</title>
       </Head>
 
+      <Head>
+        <title>MBP STUDIO @ Millennium Bug Palace</title>
+      </Head>
+
       <main style={styles.page}>
         <section style={styles.card}>
           <img src="/mbplogort.png" alt="Millennium Bug Palace" style={styles.logo} />
 
           <h1 style={styles.title}>atelier NAILBUG</h1>
+          <h1 style={styles.title}>MBP STUDIO</h1>
           <p style={styles.subtitle}>@ Millennium Bug Palace</p>
 
           <div style={styles.menu}>
-            <MenuButton href="/index" text="预约美甲 / BOOKING" />
+            <MenuButton href="/booking" text="预约美甲 / BOOKING" />
             <MenuButton href="/atelier-price" text="atelier NAILBUG 价格表" />
             <MenuButton href="/salon-price" text="MBP Salon 价格表" />
             <MenuButton href="/about" text="品牌介绍 / ABOUT" />
