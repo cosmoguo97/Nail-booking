@@ -4,7 +4,9 @@ export default function SalonPrice() {
   return (
     <main style={styles.page}>
       <section style={styles.card}>
-        <Link href="/" style={styles.back}>← HOME</Link>
+      <Link href="/" style={styles.back}>
+  ← HOME
+</Link>
 
         <h1>MBP Nail Salon 价格表</h1>
 
