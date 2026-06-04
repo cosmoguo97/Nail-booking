@@ -41,7 +41,7 @@ useEffect(() => {
     ],
   };
 
-  const timeSlots = [10, 12, 14, 16, 18];
+  const timeSlots = [10, 14, 16, 18];
 
   const [date, setDate] = useState(today);
   const [brand, setBrand] = useState(null);
