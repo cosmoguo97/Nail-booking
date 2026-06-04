@@ -175,19 +175,21 @@ export default function Booking() {
         />
       </Head>
 
-      <div style={styles.page}>
-        
-        <main style={styles.container}>
-             <Link href="/" style={styles.back}>
-  ← HOME
-</Link>   
-          <div style={styles.logoWrap}>
-            <img
-              src="/mbplogort.png"
-              alt="Millennium Bug Palace"
-              style={styles.logo}
-            />
-          </div>
+    <div style={styles.page}>
+
+  <main style={styles.container}>
+
+    <Link href="/" style={styles.back}>
+      ← HOME
+    </Link>
+
+    <div style={styles.logoWrap}>
+      <img
+        src="/mbplogort.png"
+        alt="Millennium Bug Palace"
+        style={styles.logo}
+      />
+    </div>
 
           <h1 style={styles.title}>Booking</h1>
 
@@ -399,6 +401,12 @@ export default function Booking() {
             </button>
 
             {cancelMsg && <p>{cancelMsg}</p>}
+
+              <div style={styles.bottomNav}>
+  <Link href="/" style={styles.bottomButton}>
+    ← Return Home
+  </Link>
+</div>
           </Section>
         </main>
       </div>
@@ -617,5 +625,20 @@ const styles = {
   textDecoration: "none",
   fontWeight: "bold",
   fontSize: 18,
+},
+
+  bottomNav: {
+  marginTop: 40,
+  textAlign: "center",
+},
+
+bottomButton: {
+  display: "inline-block",
+  background: "#fff",
+  border: "2px solid #000",
+  padding: "12px 24px",
+  color: "#000",
+  textDecoration: "none",
+  fontWeight: "bold",
 },
 };
