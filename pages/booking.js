@@ -176,10 +176,11 @@ export default function Booking() {
       </Head>
 
       <div style={styles.page}>
-         <Link href="/" style={styles.back}>
+        
+        <main style={styles.container}>
+             <Link href="/" style={styles.back}>
   ← HOME
 </Link>   
-        <main style={styles.container}>
           <div style={styles.logoWrap}>
             <img
               src="/mbplogort.png"
