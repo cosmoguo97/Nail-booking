@@ -4,7 +4,9 @@ export default function AtelierPrice() {
   return (
     <main style={styles.page}>
       <section style={styles.card}>
-        <Link href="/" style={styles.back}>← HOME</Link>
+<Link href="/" style={styles.back}>
+  ← HOME
+</Link>
 
         <h1>atelier NAILBUG 价格表</h1>
 
