@@ -16,7 +16,7 @@ export default function Home() {
           <p style={styles.subtitle}>@ Millennium Bug Palace</p>
 
           <div style={styles.menu}>
-            <MenuButton href="/booking" text="预约美甲 / BOOKING" />
+            <MenuButton href="/index" text="预约美甲 / BOOKING" />
             <MenuButton href="/atelier-price" text="atelier NAILBUG 价格表" />
             <MenuButton href="/salon-price" text="MBP Salon 价格表" />
             <MenuButton href="/about" text="品牌介绍 / ABOUT" />
