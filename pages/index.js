@@ -69,7 +69,7 @@ function MenuButton({ href, text }) {
 const styles = {
   page: {
     minHeight: "100vh",
-    background: "ff13f0",
+    background: "FF13F0",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
