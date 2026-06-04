@@ -4,7 +4,9 @@ export default function About() {
   return (
     <main style={styles.page}>
       <section style={styles.card}>
-        <Link href="/home" style={styles.back}>← HOME</Link>
+   <Link href="/" style={styles.back}>
+  ← HOME
+</Link>
 
         <h1>atelier NAILBUG @ Millennium Bug Palace</h1>
 
