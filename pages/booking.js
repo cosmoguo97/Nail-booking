@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
+import Link from "next/link";
 import { supabase } from "../lib/supabase";
 
 export default function Booking() {
@@ -175,6 +176,9 @@ export default function Booking() {
       </Head>
 
       <div style={styles.page}>
+         <Link href="/" style={styles.back}>
+  ← HOME
+</Link>   
         <main style={styles.container}>
           <div style={styles.logoWrap}>
             <img
@@ -605,4 +609,12 @@ const styles = {
     cursor: "pointer",
     fontFamily: "monospace",
   },
+  back: {
+  display: "inline-block",
+  marginBottom: 20,
+  color: "#000",
+  textDecoration: "none",
+  fontWeight: "bold",
+  fontSize: 18,
+},
 };
