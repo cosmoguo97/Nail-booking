@@ -133,7 +133,7 @@ page: {
   },
 
   brandText: {
-    fontSize: 14,
+    fontSize: 14, 
     lineHeight: 1.6,
     margin: 0,
   },
