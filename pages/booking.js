@@ -188,6 +188,13 @@ useEffect(() => {
       </Head>
 
     <div style={styles.page}>
+                <div style={styles.logoWrap}>
+      <img
+        src="/mbplogort.png"
+        alt="Millennium Bug Palace"
+        style={styles.logo}
+      />
+    </div>
 
   <main style={isMobile ? styles.containerMobile : styles.container}>
 
@@ -195,13 +202,7 @@ useEffect(() => {
       ← HOME
     </Link>
 
-    <div style={styles.logoWrap}>
-      <img
-        src="/mbplogort.png"
-        alt="Millennium Bug Palace"
-        style={styles.logo}
-      />
-    </div>
+
 
           <h1 style={isMobile ? styles.titleMobile : styles.title}>Booking</h1>
 
