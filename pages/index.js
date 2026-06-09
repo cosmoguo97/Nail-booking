@@ -46,8 +46,8 @@ export default function Home() {
 
           <div style={styles.menu}>
             <MenuButton href="/booking" text="预约美甲 / BOOKING" />
-            <MenuButton href="/atelier-price" text="价格表/atelier NAILBUG Pricing" />
-            <MenuButton href="/salon-price" text="价格表/MBP Salon Pricing" />
+      <MenuButton href="/atelier-price" text="价格表 / atelier NAILBUG Pricing" />
+<MenuButton href="/salon-price" text="价格表 / MBP Salon Pricing" />
             <MenuButton href="/about" text="品牌介绍 / ABOUT" />
             <MenuButton href="/policy" text="注意事项 / POLICY" />
             <MenuButton href="/contact" text="联系方式 / CONTACT" />
@@ -67,15 +67,15 @@ function MenuButton({ href, text }) {
 }
 
 const styles = {
-  page: {
-    minHeight: "100vh",
-    background: "FF13F0",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 24,
-    fontFamily: "monospace",
-  },
+page: {
+  minHeight: "100vh",
+  background: "#FF13F0",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: 24,
+  fontFamily: "monospace",
+},
 
   card: {
     width: "90vw",
