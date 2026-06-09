@@ -576,25 +576,25 @@ const styles = {
 
 input: {
   width: "100%",
-  maxWidth: "100%", 
   boxSizing: "border-box",
+  marginBottom: 10,
   padding: 12,
-  fontSize: 16,
   border: "2px solid #000",
+  fontSize: 16,
   background: "#fff",
   fontFamily: "monospace",
-}
+},
 
-  textarea: {
-    width: "100%",
-    boxSizing: "border-box",
-    minHeight: 110,
-    padding: 12,
-    border: "2px solid #000",
-    fontSize: 16,
-    resize: "vertical",
-    fontFamily: "monospace",
-  },
+textarea: {
+  width: "100%",
+  boxSizing: "border-box",
+  minHeight: 110,
+  padding: 12,
+  border: "2px solid #000",
+  fontSize: 16,
+  resize: "vertical",
+  fontFamily: "monospace",
+},
 
   submit: {
     width: "100%",
