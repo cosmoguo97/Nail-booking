@@ -21,7 +21,7 @@ export default function Home() {
           <p style={styles.subtitle}>
             atelier NAILBUG / MBP STUDIO
             <br />
-            Online Booking & Price Menu
+            线上预约/价格表/品牌介绍
           </p>
 
           <div style={styles.brandGrid}>
@@ -30,24 +30,24 @@ export default function Home() {
               <p style={styles.brandText}>
                 Original Design Nails
                 <br />
-                Custom Art / Press-On Nails
+               潮流个性美甲服务
               </p>
             </div>
 
             <div style={styles.salonBlock}>
               <h2 style={styles.brandTitle}>MBP STUDIO</h2>
               <p style={styles.brandText}>
-                Japanese Salon Style
+               Healthy Nail Care / Daily Elegance
                 <br />
-                Healthy Nail Care / Daily Elegance
+                日系沙龙通勤美甲服务
               </p>
             </div>
           </div>
 
           <div style={styles.menu}>
             <MenuButton href="/booking" text="预约美甲 / BOOKING" />
-            <MenuButton href="/atelier-price" text="atelier NAILBUG Pricing/价格表" />
-            <MenuButton href="/salon-price" text="MBP Salon Pricing/价格表" />
+            <MenuButton href="/atelier-price" text="价格表/atelier NAILBUG Pricing" />
+            <MenuButton href="/salon-price" text="价格表/MBP Salon Pricing" />
             <MenuButton href="/about" text="品牌介绍 / ABOUT" />
             <MenuButton href="/policy" text="注意事项 / POLICY" />
             <MenuButton href="/contact" text="联系方式 / CONTACT" />
