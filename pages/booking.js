@@ -190,7 +190,7 @@ useEffect(() => {
     <div style={styles.page}>
                 <div style={styles.logoWrap}>
       <img
-        src="/mbplogort.png"
+        src="/bugpalacesmall.png"
         alt="Millennium Bug Palace"
         style={styles.logo}
       />
