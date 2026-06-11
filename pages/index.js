@@ -11,7 +11,7 @@ export default function Home() {
       <main style={styles.page}>
         <section style={styles.card}>
           <img
-            src="/mbplogort.png"
+            src="/bugpalacesmall.png"
             alt="Millennium Bug Palace"
             style={styles.logo}
           />
