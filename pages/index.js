@@ -74,7 +74,7 @@ page: {
   justifyContent: "center",
   alignItems: "center",
   padding: 24,
-  fontFamily: "Pixelta",
+  fontFamily: "'DotGothic16', monospace",
 },
 
   card: {
