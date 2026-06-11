@@ -15,11 +15,7 @@ export default function Home() {
             alt="Millennium Bug Palace"
             style={styles.logo}
           />
-        // <p style={styles.subtitle}>
-        
-        //     线上预约/价格表/品牌介绍
 
-        // </p>
           <h1 style={styles.mainTitle}>Millennium Bug Palace</h1>
 
  
