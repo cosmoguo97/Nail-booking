@@ -15,20 +15,14 @@ export default function Home() {
             alt="Millennium Bug Palace"
             style={styles.logo}
           />
-        <p style={styles.subtitle}>
+        // <p style={styles.subtitle}>
         
-            线上预约/价格表/品牌介绍
+        //     线上预约/价格表/品牌介绍
 
-        </p>
+        // </p>
           <h1 style={styles.mainTitle}>Millennium Bug Palace</h1>
 
-          <p style={styles.subtitle}>
-
-               <br />
-            仟年虫殿旗下美甲品牌
-                
-          
-          </p>
+ 
 
           <div style={styles.brandGrid}>
             <div style={styles.nailbugBlock}>
@@ -80,7 +74,7 @@ page: {
   justifyContent: "center",
   alignItems: "center",
   padding: 24,
-  fontFamily: "monospace",
+  fontFamily: "Pixelta",
 },
 
   card: {
