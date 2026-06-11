@@ -19,9 +19,14 @@ export default function Home() {
           <h1 style={styles.mainTitle}>Millennium Bug Palace</h1>
 
           <p style={styles.subtitle}>
-            atelier NAILBUG / MBP STUDIO
-            <br />
+          
+         
             线上预约/价格表/品牌介绍
+
+               <br />
+            旗下美甲品牌
+                <br />
+             (￣^￣)ゞ
           </p>
 
           <div style={styles.brandGrid}>
