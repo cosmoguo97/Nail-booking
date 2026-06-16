@@ -1,0 +1,285 @@
+import Link from "next/link";
+import Head from "next/head";
+export default function Manifesto() {
+  const sections = [
+    {
+      title: "关于仟年虫 / About Millennium Bug",
+      text: [
+        "仟年虫（Millennium Bug）原本是一个技术故障。",
+        "一个诞生于 0 与 1 之间的错误。",
+        "一个系统无法正确识别和归类的存在。",
+        "而仟年虫殿试图重新理解这个错误。",
+        "因为真实世界从来不只有 0 和 1。",
+        "我们属于那里。",
+        "属于 0 与 1 之间。",
+      ],
+    },
+    {
+      title: "关于非二元 / Non-Binary Space",
+      text: [
+        "仟年虫殿是一个非二元空间。",
+        "这里的非二元不仅关乎性别，更关乎一种理解世界的方式。",
+        "并非所有问题都只有两个答案。",
+        "并非所有存在都必须被归类。",
+        "并非所有生命都需要被定义。",
+        "存在于 0 与 1 之间并不是缺陷，而是一种完整的存在状态。",
+      ],
+    },
+    {
+      title: "关于日常生活 / Everyday Life",
+      text: [
+        "仟年虫殿受到 Michel de Certeau《日常生活实践》的启发。",
+        "我们关注那些经常被认为无关紧要的事物：",
+        "旧杂志、MP3 播放器、CD 机、唱片、电子宠物、票根、玩具、植物、聊天记录、手工制品、收藏品。",
+        "因为许多真正重要的事情，恰恰发生在那里。",
+      ],
+    },
+    {
+      title: "关于艺术 / About Art",
+      text: [
+        "没有高艺术。",
+        "没有低艺术。",
+        "只有艺术。",
+        "There is no high art.",
+        "There is no low art.",
+        "There is only art.",
+        "一副美甲、一个生态缸、一本手帐、一个改造玩具、一场聚会、一次深夜谈话，都可以成为创造的一部分。",
+      ],
+    },
+    {
+      title: "关于语境 / Context",
+      text: [
+        "许多事物并没有失去价值。",
+        "它们只是失去了语境。",
+        "价值从来不是事物本身固有的属性。",
+        "价值来自关系，来自记忆，来自使用，来自人与人之间共享的经验。",
+        "仟年虫殿试图创造新的语境。",
+        "让失去意义的事物重新获得意义。",
+      ],
+    },
+    {
+      title: "关于怀旧 / Forgotten Futures",
+      text: [
+        "仟年虫殿并不试图回到过去。",
+        "我们并不怀念某个具体年代。",
+        "我们怀念的是那些尚未完成的可能性。",
+        "那些曾经被相信会发生，却最终没有发生的未来。",
+        "Collecting forgotten futures.",
+      ],
+    },
+    {
+      title: "关于抵抗 / Resistance",
+      text: [
+        "Resistance is not gentle.",
+        "抵抗并不总是温柔的。",
+        "它经常伴随着愤怒、疲惫、焦虑、悲伤、失望，以及汗水。",
+        "在一个不断要求我们生产、消费、优化和归类的世界里，保持好奇心是一种抵抗。",
+        "继续创作是一种抵抗。",
+        "继续阅读是一种抵抗。",
+        "继续讨论是一种抵抗。",
+        "保护一个不符合效率逻辑的空间是一种抵抗。",
+      ],
+    },
+    {
+      title: "我们欢迎谁 / Who Belongs Here",
+      text: [
+        "我们欢迎会因为翻到一本 2004 年的杂志而开心半小时的人。",
+        "欢迎会为了寻找一张停产 CD 而跑遍二手市场的人。",
+        "欢迎收藏票根、照片和旧聊天记录的人。",
+        "欢迎喜欢读书、讨论、DIY、植物、玩具、收藏、亚文化和互联网遗迹的人。",
+        "欢迎所有仍然保持好奇心的人。",
+        "如果这些听起来有些熟悉，那么你大概已经属于这里。",
+      ],
+    },
+    {
+      title: "关于仟年虫殿 / Millennium Bug Palace",
+      text: [
+        "仟年虫殿不是一个品牌。",
+        "不是一个工作室。",
+        "不是一个项目。",
+        "不是一个商业空间。",
+        "至少不只是这些。",
+        "它是一种实践。",
+        "一种关于日常生活的实践。",
+        "一种关于连接的实践。",
+        "一种关于创造语境的实践。",
+        "一种关于存在于 0 与 1 之间的实践。",
+        "一种关于继续生活下去的实践。",
+      ],
+    },
+  ];
+
+  return (
+    <>
+      <Head>
+        <title>Manifesto / 仟年虫殿宣言</title>
+      </Head>
+
+      <main style={styles.page}>
+        <section style={styles.container}>
+          <Link href="/" style={styles.back}>
+            ← HOME
+          </Link>
+
+          <header style={styles.hero}>
+            <h1 style={styles.title}>仟年虫殿宣言</h1>
+            <h2 style={styles.subtitle}>Millennium Bug Palace Manifesto</h2>
+            <p style={styles.tagline}>Different Colors, Same Light.</p>
+          </header>
+
+          {sections.map((section, index) => (
+            <section
+              key={section.title}
+              style={{
+                ...styles.block,
+                ...(index % 2 === 0 ? styles.pinkBlock : styles.greenBlock),
+              }}
+            >
+              <h2 style={styles.blockTitle}>{section.title}</h2>
+
+              {section.text.map((line) => (
+                <p key={line} style={styles.text}>
+                  {line}
+                </p>
+              ))}
+            </section>
+          ))}
+
+          <section style={styles.finalBlock}>
+            <p style={styles.finalText}>欢迎来到仟年虫殿。</p>
+            <p style={styles.finalText}>无需修复。</p>
+            <p style={styles.finalText}>无需归类。</p>
+            <p style={styles.finalText}>无需成为别人。</p>
+            <p style={styles.finalText}>只需要存在。</p>
+            <p style={styles.finalText}>然后继续生长。</p>
+          </section>
+
+          <div style={styles.bottomNav}>
+            <Link href="/" style={styles.bottomButton}>
+              ← Return Home
+            </Link>
+          </div>
+        </section>
+      </main>
+    </>
+  );
+}
+
+const styles = {
+  page: {
+    minHeight: "100vh",
+    background: "#FF13F0",
+    padding: "40px 0",
+    fontFamily: "monospace",
+  },
+
+  container: {
+    width: "90vw",
+    maxWidth: 980,
+    margin: "0 auto",
+    padding: 32,
+    background: "#D3D3D3",
+    border: "3px solid #000",
+    boxSizing: "border-box",
+  },
+
+  back: {
+    display: "inline-block",
+    marginBottom: 24,
+    color: "#000",
+    textDecoration: "none",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+
+  hero: {
+    background: "#fff",
+    border: "3px solid #000",
+    padding: 28,
+    marginBottom: 28,
+    textAlign: "center",
+  },
+
+  title: {
+    fontSize: 44,
+    margin: "0 0 12px",
+    letterSpacing: "4px",
+  },
+
+  subtitle: {
+    fontSize: 24,
+    margin: "0 0 18px",
+  },
+
+  tagline: {
+    display: "inline-block",
+    background: "#01FF01",
+    border: "2px solid #000",
+    padding: "10px 18px",
+    fontSize: 18,
+    fontWeight: "bold",
+    margin: 0,
+  },
+
+  block: {
+    border: "3px solid #000",
+    padding: 24,
+    marginBottom: 24,
+    lineHeight: 1.9,
+  },
+
+  pinkBlock: {
+    background: "#ffb6e8",
+  },
+
+  greenBlock: {
+    background: "#01FF01",
+  },
+
+  blockTitle: {
+    background: "#fff",
+    border: "2px solid #000",
+    padding: "10px 14px",
+    margin: "0 0 18px",
+    fontSize: 24,
+  },
+
+  text: {
+    background: "rgba(255,255,255,0.78)",
+    border: "1px solid #000",
+    padding: "8px 12px",
+    margin: "8px 0",
+    fontSize: 17,
+  },
+
+  finalBlock: {
+    background: "#000",
+    color: "#01FF01",
+    border: "3px solid #000",
+    padding: 28,
+    marginTop: 32,
+    textAlign: "center",
+  },
+
+  finalText: {
+    fontSize: 22,
+    fontWeight: "bold",
+    margin: "10px 0",
+  },
+
+  bottomNav: {
+    marginTop: 36,
+    textAlign: "center",
+  },
+
+  bottomButton: {
+    display: "inline-block",
+    background: "#fff",
+    border: "3px solid #000",
+    padding: "14px 28px",
+    color: "#000",
+    textDecoration: "none",
+    fontWeight: "bold",
+    fontSize: 18,
+  },
+};
