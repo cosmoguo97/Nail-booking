@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Head from "next/head";
 export default function Manifesto() {
-  const sections = [
+  const sections = [ 
     {
       title: "关于仟年虫 / About Millennium Bug",
       text: [
