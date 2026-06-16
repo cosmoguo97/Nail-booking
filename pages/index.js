@@ -41,6 +41,7 @@ export default function Home() {
           </div>
 
           <div style={styles.menu}>
+            <MenuButton href="/manifesto" text="仟年虫殿宣言 / MANIFESTO" />
             <MenuButton href="/booking" text="预约美甲 / BOOKING" />
       <MenuButton href="/atelier-price" text="价格表 / atelier NAILBUG Pricing" />
 <MenuButton href="/salon-price" text="价格表 / MBP Salon Pricing" />
